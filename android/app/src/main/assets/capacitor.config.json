@@ -1,0 +1,9 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "ATuPuerta",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {},
+  "windowsAndroidStudioPath":"G:\\Datos\\Proyectos\\Android\\Studio\\bin\\studio64.exe"
+}

@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>ATuPuerta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-slides pager class="HomeSlide" [options]="slideHomeOpts" >
+    <ion-slide [ngStyle]="background()">
+        <h1>My Slide 1</h1>
+    </ion-slide>
+    <ion-slide [ngStyle]="background()"> 
+      <h1>My Slide 2</h1>
+    </ion-slide>
+    <ion-slide [ngStyle]="background()">
+      <h1>My Slide 3</h1>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-slides pager-inner fade class="CategoriasSlide" [options]="slideCategoriasOpts" >
+      <ion-slide *ngFor="let item of [1,2,3,1,2,3]" >
+            <ion-grid no-padding> 
+                <ion-row class="imageCat" [ngStyle]="backgroundCat(item)" >
+                    <!-- <ion-img style="" src="./assets/img/prueba.png"></ion-img> -->
+                </ion-row>
+                <ion-row >
+                    <p class="text">{{categorias[item-1].title}}</p>
+                </ion-row>
+            </ion-grid>
+      </ion-slide>
+    </ion-slides>
+
+    <ion-list no-lines class="listProduct">
+        <app-eat-item *ngFor="let item of [1,2,3,1,2,3]" ></app-eat-item>
+      </ion-list>
+</ion-content>

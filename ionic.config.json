@@ -1,0 +1,7 @@
+{
+  "name": "ATuPuerta",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
