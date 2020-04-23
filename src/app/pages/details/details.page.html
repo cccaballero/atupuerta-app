@@ -1,13 +1,15 @@
 <ion-header [translucent]="true">
     <ion-toolbar>
       <ion-buttons slot="start">
-          <ion-button clear color="dark" (click)="dismissDetails()"><ion-icon name="arrow-back"></ion-icon></ion-button>
+          <ion-button clear color="dark" (click)="dismissDetails()"><ion-icon name="chevron-back-outline"></ion-icon></ion-button>
       </ion-buttons>
       <ion-title>ATuPuerta</ion-title>
     </ion-toolbar>
   </ion-header>
 
 <ion-content> 
+    <!-- <ion-icon class="icoFav" name="heart-outline"></ion-icon> -->
+    <ion-icon class="icoFav" name="heart"></ion-icon>
     <ion-slides pager class="Slide" [options]="slideOpts" >
         <ion-slide [ngStyle]="background()" >
         </ion-slide>
@@ -18,6 +20,7 @@
             <span class="spanPrice">$50.00 CUP</span>
         </div>
         
+        <h5 class="desctitle">Descripción:</h5>
         <p class="desc" [ngStyle]="{ 'white-space': 'pre-wrap' }">
             Pollo asado pollo asado pollo asadopollo asadopollo asadopollo 
             asadopollo asadopollo asadopollo asadopollo asadopollo asadopollo 
@@ -75,7 +78,7 @@
                   {{comment.text}}
                 <br/>
                 <div style="display: flex;align-items: center;justify-content: flex-end;">
-                  <ion-icon name="time"></ion-icon>
+                    <ion-icon name="time-outline"></ion-icon>
                   {{comment.date}}
                 </div>
               </ion-card-content>
@@ -91,7 +94,7 @@
 
       <ion-fab vertical="bottom" horizontal="end" slot="fixed" #fab>
           <ion-fab-button (click)="message()" color="primary">
-            <ion-icon name="message"></ion-icon>
+            <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
           </ion-fab-button>
         </ion-fab>
 </ion-content>

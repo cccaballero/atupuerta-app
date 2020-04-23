@@ -13,19 +13,19 @@
                       <h1><strong>Nombre User</strong></h1>
                     </ion-text>
                     <ion-button *ngIf="authService.isLoggedIn" (click)="logout()" clear class="btnAuth">
-                      <ion-icon slot="start" name="log-out"></ion-icon>
+                        <ion-icon name="exit-outline"></ion-icon>
                       <ion-label>
                         Logout
                       </ion-label>
                     </ion-button>
                     <ion-button *ngIf="!authService.isLoggedIn" (click)="register()" clear class="btnAuth">
-                        <ion-icon slot="start" name="log-in"></ion-icon>
+                        <ion-icon name="ribbon-outline"></ion-icon>
                         <ion-label>
                             Registrar
                         </ion-label>
                       </ion-button>
                      <ion-button *ngIf="!authService.isLoggedIn" (click)="login()" clear class="btnAuth">
-                      <ion-icon slot="start" name="log-in"></ion-icon>
+                        <ion-icon name="enter-outline"></ion-icon>
                       <ion-label>
                         Login
                       </ion-label>

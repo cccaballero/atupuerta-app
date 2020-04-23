@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar>
         <ion-buttons slot="start">
-            <ion-button clear color="dark" (click)="dismiss()"><ion-icon name="arrow-back"></ion-icon></ion-button>
+            <ion-button clear color="dark" (click)="dismiss()"><ion-icon name="close-outline"></ion-icon></ion-button>
         </ion-buttons>
         <div style="display: flex">
           <ion-avatar item-start>
@@ -27,7 +27,7 @@
       
     <div class="menuBottom">
         <ion-input [(ngModel)]="texto" class="messageInput" type="text" name="text"></ion-input>
-        <ion-button [disabled]="texto?.trim().length<1" clear color="green" (click)="send()"><ion-icon name="arrow-back"></ion-icon></ion-button>
+        <ion-button [disabled]="texto?.trim().length<1" clear color="green" (click)="send()"><ion-icon name="paper-plane"></ion-icon></ion-button>
         </div>
     
 </ion-content>

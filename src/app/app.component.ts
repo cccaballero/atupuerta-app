@@ -20,8 +20,13 @@ export class AppComponent implements OnInit {
     },
     {
       title: 'Favoritos',
-      url: '#',
-      icon: 'star'
+      url: '',
+      icon: 'heart'
+    },
+    {
+      title: 'Mensajes',
+      url: '',
+      icon: 'chatbubbles-outline'
     }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
