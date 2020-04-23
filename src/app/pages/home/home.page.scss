@@ -1,10 +1,6 @@
-ion-title{
-    text-align: center;
-    padding-right: 52px;
-    padding-left: 0px;
-    font-family: cursive;
+ion-toolbar{
+    box-shadow: 0px 0px 25px 5px #626262;
 }
-
 
 .HomeSlide ion-slide{
     min-width: 100vw;
@@ -22,6 +18,7 @@ ion-title{
 .CategoriasSlide ion-slide{
     margin: 5.5px;
     width: 30vw !important;
+    margin-top: 3px;
 }
 
 .CategoriasSlide ion-slide .imageCat{
@@ -42,6 +39,22 @@ ion-title{
     margin-top: 3px; 
 }
 
+.CategoriasSlide ion-grid{
+    box-shadow: 1px 1px 5px 1px #bcbcbc8c;
+    margin-bottom: 5px;
+    border-radius: 8px;
+}
+
+.CategoriasSlide ion-grid.active{
+    box-shadow: 1px 1px 5px 1px #feb92f;
+}
+
 .listProduct{
     padding-top: 0px;
+}
+
+.flechaCat{
+    margin-top: 38px;
+    background: #e2e2e28c;
+    border-radius: 50%;
 }

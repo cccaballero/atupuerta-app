@@ -117,3 +117,21 @@ ion-note {
 ion-item.selected {
   --color: var(--ion-color-primary);
 }
+
+.btnAuth{
+  --background: transparent;
+    --color: black;
+    --border: none;
+    --box-shadow: none;
+    margin: 0;
+    text-transform: none;
+}
+
+.btnAuth ion-icon{
+  color: black;
+  margin-right: 0px;
+}
+
+.btnAuth ion-label{
+  font-family: serif;
+}

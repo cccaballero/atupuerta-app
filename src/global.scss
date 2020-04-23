@@ -26,6 +26,13 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 
-ion-toolbar{
-    box-shadow: 0px 0px 25px 5px #626262;
+ion-title{
+    text-align: center;
+    padding-right: 52px;
+    padding-left: 0px;
+    font-family: cursive;
+}
+
+.modalChat{
+    padding: 8%;
 }

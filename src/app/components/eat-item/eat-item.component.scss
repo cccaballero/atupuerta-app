@@ -25,13 +25,20 @@
     font-size: 12px;
     font-weight: 700;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    display: flex;
+    margin-top: 3px;
 }
 
-.price span{
+.price .spanPrice{
     position: absolute;
     right: 16px;
 }
 
 ion-card{
     margin-top: 3px;
+}
+
+.spanNValoracion{
+    color: #92949c; 
+    font-weight: 400;
 }

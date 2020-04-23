@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Platform } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NavController  } from '@ionic/angular';
+import { Platform, IonMenu } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -16,14 +17,24 @@ export class AppComponent implements OnInit {
       title: 'Inicio',
       url: '/home',
       icon: 'home'
+    },
+    {
+      title: 'Favoritos',
+      url: '#',
+      icon: 'star'
     }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
+  @ViewChild('menu', { static: true }) menu: IonMenu;
+
+
   constructor(
+    private navCtrl: NavController,
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private authService: AuthService,
   ) {
     this.initializeApp();
   }
@@ -40,5 +51,21 @@ export class AppComponent implements OnInit {
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
+  }
+
+  logout(){
+    this.authService.logout();
+    this.navCtrl.navigateRoot('/home');
+    this.menu.toggle(true);
+  }
+
+  login(){
+    this.navCtrl.navigateForward(['/login']);
+    this.menu.toggle(true);
+  } 
+ 
+  register(){ 
+    this.navCtrl.navigateForward(['/register']);
+    this.menu.toggle(true);
   }
 }

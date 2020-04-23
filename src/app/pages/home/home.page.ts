@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonSlides } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private navCtrl:NavController
+  ) { }
+
+  @ViewChild('slidesCat', { static: true }) slidesCat: IonSlides;
 
   slideHomeOpts = {
     initialSlide: 0,
@@ -21,15 +27,20 @@ export class HomePage implements OnInit {
     slidesPerView: 3
   };
 
+  styleCatActive = { "box-shadow": "1px 1px 5px 1px #feb92f"};
+
   categorias = [
     {
-      title:"Filete"
+      title:"Filete",
+      style:{}
     },
     {
-      title:"Pizza"
+      title:"Pizza",
+      style:{}
     },
     {
-      title:"Pollo"
+      title:"Pollo",
+      style:{}
     }
   ]
 
@@ -50,5 +61,36 @@ export class HomePage implements OnInit {
       "background-image" : "url(./assets/img/prueba"+item+".png)"
     };
   }
+
+
+  slideCatPrev(){
+    this.slidesCat.slidePrev();
+  }
+
+  slideCatNext2(){
+    this.slidesCat.slideNext();
+  }
+
+  onClickCat(titleCat){
+    this.categorias = this.categorias.map( x => { 
+      x.style = ( x.title == titleCat && x.style != this.styleCatActive )?this.styleCatActive:{}; 
+      console.log
+      return x; 
+    });
+
+    let sel = this.categorias.filter( x => x.style != {} );
+  }
+
+  onClickProduct(item){
+    this.navCtrl.navigateForward(['/details/'+item]);
+  }
+
+  doRefresh(event){
+    event.target.complete();
+  }  
+
+  loadData(event){
+    setTimeout( ()=> event.target.complete(), 1000); 
+  }  
 
 }

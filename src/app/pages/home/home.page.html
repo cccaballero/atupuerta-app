@@ -20,9 +20,13 @@
     </ion-slide>
   </ion-slides>
 
-  <ion-slides pager-inner fade class="CategoriasSlide" [options]="slideCategoriasOpts" >
+  <div style="display: flex">
+  <div style="width: 8%;position: absolute;z-index: 10;left: 0;" (click)="slideCatPrev()">
+      <ion-img  class="flechaCat" src="./assets/icon/Flecha-Izquierda.png" ></ion-img>
+    </div>
+  <ion-slides #slidesCat pager-inner fade class="CategoriasSlide" [options]="slideCategoriasOpts" >
       <ion-slide *ngFor="let item of [1,2,3,1,2,3]" >
-            <ion-grid no-padding> 
+            <ion-grid no-padding [ngStyle]="categorias[item-1].style" (click)="onClickCat(categorias[item-1].title)"> 
                 <ion-row class="imageCat" [ngStyle]="backgroundCat(item)" >
                     <!-- <ion-img style="" src="./assets/img/prueba.png"></ion-img> -->
                 </ion-row>
@@ -32,8 +36,21 @@
             </ion-grid>
       </ion-slide>
     </ion-slides>
+    <div style="width: 8%;position: absolute;z-index: 10;right: 0;" (click)="slideCatNext2()">
+        <ion-img class="flechaCat" src="./assets/icon/Flecha-derecha.png"></ion-img>
+      </div>
+     </div>
 
+     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher> 
     <ion-list no-lines class="listProduct">
-        <app-eat-item *ngFor="let item of [1,2,3,1,2,3]" ></app-eat-item>
+        <app-eat-item (click)="onClickProduct(item)" *ngFor="let item of [1,2,3,1,2,3]" ></app-eat-item>
       </ion-list>
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content
+          loadingSpinner="bubbles"
+          loadingText="Cargando mas datos...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
 </ion-content>
