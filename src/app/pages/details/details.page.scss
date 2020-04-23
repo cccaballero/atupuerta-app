@@ -1,0 +1,97 @@
+ion-content{
+    --padding-end: 15px;
+    --padding-start: 15px;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+}
+
+.Slide ion-slide{
+    min-width: 100vw;
+    max-width: 100vw;
+    height: 180px;
+}
+
+.Slide{
+    border-radius: 10px;
+}
+
+.details{
+    padding:10px;
+    padding-top:0px;
+}
+
+.divDetails{
+    display: flex;
+    align-items: baseline;
+}
+
+.divDetails span{
+    color: #429b0b;
+    white-space: nowrap;
+    line-height: 16px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    margin-left: auto;
+}
+
+.title{
+    color: #2e2e2e;
+    font-weight: 600;
+    line-height: 1.2;
+    font-style: italic;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.desc{
+    color: #737373;
+    font-size: 14px;
+}
+
+
+.empr{
+    display: flex;
+    align-items: center;
+}
+
+.empr ion-avatar{
+    width: 26px;
+    height: 26px;
+    margin-right: 3px;
+}
+
+.div2{
+    display: flex;
+    align-items: center;
+}
+
+.msg-textarea{
+    height: 120px;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    font-size: .875rem;
+    color: #707070;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.msg-textarea .native-textarea{
+    min-height: 120px;
+    padding-right: 8px;
+}
+
+
+.btn-msg{
+    text-transform: none;
+    background-color: #fafafa !important;
+    color: #919191 !important;
+    opacity: 1 !important;
+    cursor: default !important;
+    box-shadow: none;
+    --box-shadow: none;
+    border: 1px solid #dfdfdf;
+    border-radius: 4px;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+}
