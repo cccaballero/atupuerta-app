@@ -1,0 +1,112 @@
+ion-toolbar ion-avatar{
+    width: 26px;
+    height: 26px;
+    margin-right: 3px;
+}
+
+.messageInput{
+    box-shadow: 0px 0px 4px 2px #c7c5c58c;
+    border-radius: 50px;
+    width: calc(84vw - 48px);
+    margin-left: 3px;
+}
+
+.menuBottom{
+    display: flex;
+    position: absolute;
+    bottom: 5px;
+    height: 40px;
+    align-items: center;
+    position: fixed;
+    z-index: 999;
+    background: white;
+    box-shadow: 0px 0px 1px 6px white;
+}
+
+.menuBottom ion-button{
+    background-color: #419741;
+    border-radius: 100%;
+    --border-radius: 100%;
+    width: 40px;
+    font-size: 11px;
+    height: 40px;
+}
+
+.chat-bubble {
+    border-radius: 5px;
+    display: inline-block;
+    position: relative;
+    padding: 8px;
+    margin: 8px 12px;
+    max-width: 80%;
+}
+
+.chat-bubble.left {
+    background-color: #bdbdbdd1;
+    margin-left: 15px;
+    border-top-left-radius: 0;
+}
+
+.chat-bubble.right {
+    background-color: #4eb84c;
+    margin-left: 15px;
+    border-top-right-radius: 0;
+    margin-right: 15px;
+    margin-left: auto;
+}
+
+.chat-bubble.left::before {
+    content: "\00a0";
+    display: block;
+    height: 15px;
+    width: 10.5px;
+    position: absolute;
+    top: 0px;
+    left: -10px;
+    background-color: #bdbdbdd1;
+    border-bottom-left-radius: 100%;
+    border: none;
+    box-shadow: none;
+}
+
+.chat-bubble.right::after {
+    content: "\00a0";
+    display: block;
+    height: 15px;
+    width: 10.5px;
+    position: absolute;
+    top: 0px;
+    right: -10px;
+    background-color: #4eb84c;
+    border-bottom-right-radius: 100%;
+    border: none;
+    box-shadow: none;
+}
+
+.chat-bubble {
+    border-radius: 16px;
+    max-width: 85%;
+    display: inline-block;
+    min-width: 80px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    
+    .message {
+        font-size: 14px;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        padding: 12px;
+        padding-bottom: 1px;
+        width: auto;
+    }
+  
+    .message-detail {
+      white-space: nowrap;
+      font-size: 10px;
+      padding-bottom: 10px;
+      padding-right: 15px;
+      text-align: end;
+    }
+  
+    
+  }

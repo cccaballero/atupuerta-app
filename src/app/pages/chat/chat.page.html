@@ -1,0 +1,33 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button clear color="dark" (click)="dismiss()"><ion-icon name="arrow-back"></ion-icon></ion-button>
+        </ion-buttons>
+        <div style="display: flex">
+          <ion-avatar item-start>
+              <img src="./assets/img/prueba3.png">
+          </ion-avatar>
+          <ion-title>Juan Perez Perez</ion-title>
+        </div>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content #content>
+  
+    <ion-list no-lines style="margin-bottom: 50px;">
+          <div *ngFor="let msg of messages" style="display: flex;">
+            <div class="chat-bubble {{msg.username ? 'right' : 'left'}}">
+              <div class="message">{{msg.message}}</div>
+              <div class="message-detail">
+                <span>{{formatEpoch(msg.epoch)}}</span>
+              </div>
+            </div>
+          </div>
+    </ion-list>
+      
+    <div class="menuBottom">
+        <ion-input [(ngModel)]="texto" class="messageInput" type="text" name="text"></ion-input>
+        <ion-button [disabled]="texto?.trim().length<1" clear color="green" (click)="send()"><ion-icon name="arrow-back"></ion-icon></ion-button>
+        </div>
+    
+</ion-content>
