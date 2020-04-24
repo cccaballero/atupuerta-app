@@ -28,11 +28,19 @@
 
 ion-title{
     text-align: center;
-    padding-right: 52px;
+    padding-right: 13px;
     padding-left: 0px;
     font-family: cursive;
+    font-weight: bold;
+    font-size: 24px;
 }
 
 .modalChat{
     padding: 8%;
+}
+
+.btnCartTop{
+    margin-right: 10px;
+    width: 25px;
+    height: 25px;
 }

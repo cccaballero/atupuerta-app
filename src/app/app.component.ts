@@ -16,16 +16,16 @@ export class AppComponent implements OnInit {
     {
       title: 'Inicio',
       url: '/home',
-      icon: 'home'
+      icon: 'home-outline'
     },
     {
       title: 'Favoritos',
-      url: '',
-      icon: 'heart'
+      url: '/favorites',
+      icon: 'heart-outline'
     },
     {
       title: 'Mensajes',
-      url: '',
+      url: '/messages',
       icon: 'chatbubbles-outline'
     }
   ];

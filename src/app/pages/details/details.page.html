@@ -4,12 +4,15 @@
           <ion-button clear color="dark" (click)="dismissDetails()"><ion-icon name="chevron-back-outline"></ion-icon></ion-button>
       </ion-buttons>
       <ion-title>ATuPuerta</ion-title>
+      <ion-buttons slot="end">
+        <ion-icon class="btnCartTop" name="cart-outline"></ion-icon>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
 
 <ion-content> 
-    <!-- <ion-icon class="icoFav" name="heart-outline"></ion-icon> -->
-    <ion-icon class="icoFav" name="heart"></ion-icon>
+    <ion-icon (click)="onFavorite()" class="icoFav" name="{{favorite? 'heart' : 'heart-outline'}}"></ion-icon>
+    <!-- <ion-icon class="icoFav" name="heart"></ion-icon> -->
     <ion-slides pager class="Slide" [options]="slideOpts" >
         <ion-slide [ngStyle]="background()" >
         </ion-slide>
@@ -18,6 +21,13 @@
         <div class="divDetails">
             <h4 class="title">Pollo Asado</h4>
             <span class="spanPrice">$50.00 CUP</span>
+        </div>
+
+        <div class="cartDiv">
+            <ion-icon (click)="cantidad= (cantidad > 1)? cantidad-1 : cantidad" name="chevron-back-outline"></ion-icon>
+            <ion-input type="number" [(ngModel)]="cantidad" ></ion-input> 
+            <ion-icon (click)="cantidad=cantidad+1" name="chevron-forward-outline"></ion-icon>
+            <ion-button clear >Añadir al carrito</ion-button>
         </div>
         
         <h5 class="desctitle">Descripción:</h5>
@@ -60,36 +70,45 @@
       </div>
 
       <div>
-        <ion-item>
-          Comentarios
-        </ion-item>
-        <ion-list no-line>
-          <ion-card *ngFor="let comment of comments">
-              <ion-card-header class="empr">
-                  <ion-avatar item-start>
-                      <img src="./assets/img/prueba2.png">
-                    </ion-avatar>
-                    <span> {{comment.name}}</span>
-                    <div style="margin-left: auto;">
-                        <ion-icon *ngFor="let i of [1,2,3,4,5]" name="star" [ngStyle]="styleStar(14, comment.star, i)"></ion-icon>
-                      </div>
-              </ion-card-header>
-              <ion-card-content>
-                  {{comment.text}}
-                <br/>
-                <div style="display: flex;align-items: center;justify-content: flex-end;">
-                    <ion-icon name="time-outline"></ion-icon>
-                  {{comment.date}}
-                </div>
-              </ion-card-content>
-          </ion-card>
-        </ion-list>
-        <ion-textarea [(ngModel)]="commentText" class="msg-textarea" placeholder="Write a comment" lineHeight="60" maxExpand="20"></ion-textarea>
+        <ion-item style="--padding-end: 0;--padding-start: 0;--min-height: 10px;"></ion-item>
+        <ion-textarea [(ngModel)]="commentText" class="msg-textarea" placeholder="Escribe tu comentario" lineHeight="60" maxExpand="20"></ion-textarea>
         <div style="display: flex; margin: 5px;">
             <ion-icon *ngFor="let i of [1,2,3,4,5]" (click)="commentStar=i" name="star" [ngStyle]="styleStar(20, commentStar, i)"></ion-icon>
           </div>
         <ion-button  [disabled]="commentText?.trim().length<2"
-        (click)="sendComment()" class="btn-msg" color="black" clear full>Comment</ion-button>
+        (click)="sendComment()" class="btn-msg" color="black" clear full>Comentar</ion-button>
+          
+        <ion-item style="--padding-end: 16px;">
+            Comentarios
+        </ion-item>
+
+        <ion-list no-line>
+            <ion-card *ngFor="let comment of comments">
+                <ion-card-header class="empr">
+                    <ion-avatar item-start>
+                        <img src="./assets/img/prueba2.png">
+                      </ion-avatar>
+                      <span> {{comment.name}}</span>
+                      <div style="margin-left: auto;">
+                          <ion-icon *ngFor="let i of [1,2,3,4,5]" name="star" [ngStyle]="styleStar(14, comment.star, i)"></ion-icon>
+                        </div>
+                </ion-card-header>
+                <ion-card-content>
+                    {{comment.text}}
+                  <br/>
+                  <div style="display: flex;align-items: center;justify-content: flex-end;">
+                      <ion-icon name="time-outline"></ion-icon>
+                    {{comment.date}}
+                  </div>
+                </ion-card-content>
+            </ion-card>
+            <ion-infinite-scroll threshold="100px" (ionInfinite)="loadComment($event)">
+                <ion-infinite-scroll-content
+                  loadingSpinner="bubbles"
+                  loadingText="Cargando más comentarios...">
+                </ion-infinite-scroll-content>
+              </ion-infinite-scroll>
+          </ion-list>
       </div>
 
       <ion-fab vertical="bottom" horizontal="end" slot="fixed" #fab>

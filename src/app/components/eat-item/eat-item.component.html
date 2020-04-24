@@ -1,18 +1,22 @@
-<ion-card class="product" >
-    <ion-card-content >
+<div #div class="divCard">
+  <ion-icon #iconLeft class="iconLeft" name="heart-outline"></ion-icon>
+  <ion-icon #iconRight class="iconRight" name="cart-outline"></ion-icon>
+<ion-card class="product" #elem>
+    <ion-card-content (pan)="panEvent($event)" (panStart)="panStart($event)" (panEnd)="panEnd($event)" >
         <ion-avatar item-start>
             <img src="./assets/img/prueba3.png">
           </ion-avatar>
           <div>
             <h4 class="title"  >
               Pollo asado
+              <ion-icon class="icoFav" name="{{favorite? 'heart' : 'heart-outline'}}"></ion-icon>
               </h4> 
               <span class="labels" >
-                 Short descriptions <ion-icon name="cart-outline"></ion-icon>
+                 Short descriptions
               </span>
               <br/>
               <div class="price">
-                  <div>
+                  <div> 
                     <ion-icon name="star" style="color:#feb92f"></ion-icon>
                     <ion-icon name="star" style="color:#feb92f"></ion-icon>
                     <ion-icon name="star" style="color:#feb92f"></ion-icon>
@@ -25,3 +29,4 @@
             </div>
     </ion-card-content>
 </ion-card>
+</div>

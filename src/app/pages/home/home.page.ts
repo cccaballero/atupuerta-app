@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonSlides } from '@ionic/angular';
-import { NavController } from '@ionic/angular';
+import { IonSlides, NavController, Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +8,10 @@ import { NavController } from '@ionic/angular';
 })
 export class HomePage implements OnInit {
 
+  subscription:any;
+
   constructor(
+    private platform: Platform,
     private navCtrl:NavController
   ) { }
 
@@ -45,6 +47,16 @@ export class HomePage implements OnInit {
   ]
 
   ngOnInit() {
+  }
+
+  ionViewDidEnter(){
+    this.subscription = this.platform.backButton.subscribe(()=>{
+        navigator['app'].exitApp();
+    });
+  }
+
+  ionViewWillLeave(){
+    this.subscription.unsubscribe();
   }
 
   background(){
@@ -93,4 +105,15 @@ export class HomePage implements OnInit {
     setTimeout( ()=> event.target.complete(), 1000); 
   }  
 
+  onClickCardTop(){
+    console.log("toCart");
+  }
+
+  onSwipeLeft(item){
+    console.log(item);
+  }
+
+  onSwipeRight(item){
+    console.log(item);
+  }
 }

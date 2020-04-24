@@ -1,5 +1,7 @@
-import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild,Input } from '@angular/core';
 import { NavController, ModalController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+import { NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-chat',
@@ -10,12 +12,18 @@ export class ChatPage implements OnInit {
 
   messages:any;
   texto:string;
+  id:any;
+  isModal:any = false;
   @ViewChild('content', {static:true}) content: any;
 
   constructor(
-    private modalController: ModalController,
+    private route: ActivatedRoute,
+    private modalCtrl: ModalController,
+    private NavCtrl: NavController,
+    // private navParams: NavParams,
     private _zone: NgZone,
   ) { 
+    
   }
 
   ionViewWillEnter() {
@@ -23,6 +31,9 @@ export class ChatPage implements OnInit {
 
 
   ngOnInit() {
+    if( !this.isModal )
+      this.id = this.route.snapshot.paramMap.get('id');
+
     this.messages = [
       {
         message: "Hola",
@@ -63,7 +74,10 @@ export class ChatPage implements OnInit {
   }
 
   dismiss() {
-    this.modalController.dismiss();
+    if( this.isModal )
+      this.modalCtrl.dismiss();
+    else
+      this.NavCtrl.back();
   }
 
   send(){

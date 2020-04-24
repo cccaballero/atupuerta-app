@@ -4,6 +4,10 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>ATuPuerta</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon  class="btnCartTop" (click)="onClickCardTop()" name="cart-outline"></ion-icon>
+      <!-- <ion-badge item-end>0</ion-badge> -->
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -45,12 +49,13 @@
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher> 
     <ion-list no-lines class="listProduct">
-        <app-eat-item (click)="onClickProduct(item)" *ngFor="let item of [1,2,3,1,2,3]" ></app-eat-item>
-      </ion-list>
-    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-        <ion-infinite-scroll-content
-          loadingSpinner="bubbles"
-          loadingText="Cargando mas datos...">
-        </ion-infinite-scroll-content>
-      </ion-infinite-scroll>
+        <app-eat-item (click)="onClickProduct(item)" (onSwipeLeft)="onSwipeLeft(item)" (onSwipeRight)="onSwipeRight(item)" *ngFor="let item of [1,2,3,1,2,3]" ></app-eat-item>
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+            <ion-infinite-scroll-content
+              loadingSpinner="bubbles"
+              loadingText="Cargando más productos...">
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+    </ion-list>
+    
 </ion-content>

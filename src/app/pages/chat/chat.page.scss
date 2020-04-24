@@ -1,3 +1,8 @@
+ion-title{
+    text-align: left;
+    font-size: 20px;
+}
+
 ion-toolbar ion-avatar{
     width: 26px;
     height: 26px;
@@ -21,6 +26,7 @@ ion-toolbar ion-avatar{
     z-index: 999;
     background: white;
     box-shadow: 0px 0px 1px 6px white;
+    width: 100%;
 }
 
 .menuBottom ion-button ion-icon{
@@ -80,7 +86,7 @@ ion-toolbar ion-avatar{
     content: "\00a0";
     display: block;
     height: 15px;
-    width: 10.5px;
+    width: 11px;
     position: absolute;
     top: 0px;
     right: -10px;

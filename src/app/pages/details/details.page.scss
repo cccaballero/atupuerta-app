@@ -106,3 +106,38 @@ ion-content{
     margin-left: 0;
     margin-right: 0;
 }
+
+.cartDiv{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cartDiv ion-icon{
+    width: 35px;
+    height: 35px;
+    border-radius: 100%;
+    background-color: #dcd8d8;
+    color: #575757;
+    box-shadow: 2px 2px 5px 1px #b7b4b4;
+}
+
+.cartDiv ion-input{
+    width: 35px;
+    max-width: 40px;
+    height: 35px;
+    box-shadow: 2px 2px 5px 1px #b7b4b4;
+    border-radius: 8px;
+    text-align: center;
+    --padding-start: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.cartDiv ion-button{
+    width: 160px;
+    margin-left: 13px;
+    font-size: small;
+    --background: #018f00;
+    font-weight: 600;
+}

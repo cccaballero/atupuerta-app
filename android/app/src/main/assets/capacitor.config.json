@@ -1,5 +1,5 @@
 {
-  "appId": "io.ionic.starter",
+  "appId": "com.atupuerta.free",
   "appName": "ATuPuerta",
   "bundledWebRuntime": false,
   "npmClient": "npm",
@@ -7,3 +7,4 @@
   "cordova": {},
   "windowsAndroidStudioPath":"G:\\Datos\\Proyectos\\Android\\Studio\\bin\\studio64.exe"
 }
+

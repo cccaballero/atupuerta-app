@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-item lines="none" class="icoFav"><div><ion-icon  name="heart"></ion-icon>Favoritos</div></ion-item>
+      <ion-buttons slot="end">
+        <ion-icon  class="btnCartTop"  (click)="onClickCardTop()"  name="cart-outline"></ion-icon>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher> 
+    <ion-list no-lines class="listProduct">
+        <app-eat-item (click)="onClickProduct(item)" (onSwipeLeft)="onSwipeLeft(item)" (onSwipeRight)="onSwipeRight(item)" *ngFor="let item of [1,2,3,1,2,3]" ></app-eat-item>
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+            <ion-infinite-scroll-content
+              loadingSpinner="bubbles"
+              loadingText="Cargando más productos...">
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+    </ion-list>
+</ion-content> 

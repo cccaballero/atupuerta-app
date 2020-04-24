@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-item lines="none" class="icoFav"><div><ion-icon  name="chatbubbles-outline"></ion-icon>Mensajes</div></ion-item>
+      <ion-buttons slot="end">
+        <ion-icon  class="btnCartTop" (click)="onClickCardTop()" name="cart-outline"></ion-icon>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+      <ion-list >
+          <ion-item (click)="onClick(item)" no-padding *ngFor="let item of [1,2,3,4,5]">
+              <ion-avatar>
+                <ion-img src="./assets/img/prueba2.png" alt=""></ion-img>
+              </ion-avatar>
+              <div>
+                <h2 class="name">
+                  Jose Juan Perez
+                </h2>
+                <span class="updated" >
+                  Update a week ago
+                </span>
+              </div>
+          </ion-item>  
+      </ion-list>
+</ion-content>

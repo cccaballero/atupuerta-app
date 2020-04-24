@@ -1,3 +1,11 @@
+ion-card-content{
+    touch-action: auto !important;
+}
+
+.product{
+    margin-left: 0;
+    margin-right: 0;
+}
 .product ion-card-content {
     display: flex;
 }
@@ -41,4 +49,31 @@ ion-card{
 .spanNValoracion{
     color: #92949c; 
     font-weight: 400;
+}
+
+.divCard{
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 4px;
+}
+
+.iconLeft, .iconRight{
+    position: absolute;
+    color: white;
+    margin-top: 30px;
+    font-style: oblique;
+    width: 30px;
+    height: 30px;
+}
+
+.iconLeft{
+    margin-left: 15px;
+}
+
+.iconRight{
+    right: 25px;
+}
+
+.icoFav{
+    color: #feb92f;
 }

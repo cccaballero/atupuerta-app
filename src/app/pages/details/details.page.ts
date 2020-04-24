@@ -21,6 +21,8 @@ export class DetailsPage implements OnInit {
   comments:any;
   commentText:any;
   commentStar:number = 3;
+  favorite:boolean;
+  cantidad:number = 1;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,6 +32,7 @@ export class DetailsPage implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
+    this.favorite = true;
     this.comments = [{
       name:"Juan Perez Perez",
       text:"El plato es muy bueno. El plato es muy bueno.El plato es muy bueno.El plato es muy bueno.El plato es muy bueno.",
@@ -73,7 +76,11 @@ export class DetailsPage implements OnInit {
   async message(){
     const chatModal = await this.modalController.create({
       component: ChatPage,
-      cssClass:"modalChat"
+      cssClass: "modalChat",
+      componentProps: { 
+        id:5,
+        isModal:true
+      }
     });
     return await chatModal.present();
   }
@@ -82,4 +89,11 @@ export class DetailsPage implements OnInit {
     console.log(event);
   }
 
+  onFavorite(){
+    this.favorite = !this.favorite;
+  }
+
+  loadComment(event){
+    setTimeout( ()=> event.target.complete(), 1000); 
+  } 
 }
