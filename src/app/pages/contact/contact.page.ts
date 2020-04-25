@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-contact',
@@ -8,11 +8,24 @@ import { NavController } from '@ionic/angular';
 })
 export class ContactPage implements OnInit {
 
+  subscription:any;
+
   constructor(
+    private platform: Platform,
     private navCtrl:NavController,
   ) { }
 
   ngOnInit() {
+  }
+
+  ionViewDidEnter(){
+    this.subscription = this.platform.backButton.subscribe(()=>{
+        navigator['app'].exitApp();
+    });
+  }
+
+  ionViewWillLeave(){
+    this.subscription.unsubscribe();
   }
 
   onClickCardTop(){
