@@ -106,7 +106,7 @@ export class HomePage implements OnInit {
   }  
 
   onClickCardTop(){
-    console.log("toCart");
+    this.navCtrl.navigateForward(['/cart']);
   }
 
   onSwipeLeft(item){

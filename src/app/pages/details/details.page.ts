@@ -96,4 +96,8 @@ export class DetailsPage implements OnInit {
   loadComment(event){
     setTimeout( ()=> event.target.complete(), 1000); 
   } 
+
+  onClickCardTop(){
+    this.navCtrl.navigateForward(['/cart']);
+  }
 }

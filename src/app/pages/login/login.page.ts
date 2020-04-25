@@ -46,4 +46,8 @@ export class LoginPage implements OnInit {
     this.navCtrl.navigateForward(['/register']);
   }
 
+  dismiss(){
+    this.navCtrl.back();
+  }
+
 }

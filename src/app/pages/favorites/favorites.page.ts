@@ -41,7 +41,7 @@ export class FavoritesPage implements OnInit {
   }  
 
   onClickCardTop(){
-    console.log("toCart");
+    this.navCtrl.navigateForward(['/cart']);
   }
 
   onSwipeLeft(item){

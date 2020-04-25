@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { NavController, LoadingController } from '@ionic/angular';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-register',
@@ -8,7 +10,11 @@ import { NgForm } from '@angular/forms';
 })
 export class RegisterPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private navCtrl: NavController,
+    private alertService: AlertService,
+    public loadingCtrl: LoadingController,
+  ) { }
 
   ngOnInit() {
   }
@@ -36,5 +42,9 @@ export class RegisterPage implements OnInit {
         
       }
     );*/
+  }
+
+  dismiss(){
+    this.navCtrl.back();
   }
 }
