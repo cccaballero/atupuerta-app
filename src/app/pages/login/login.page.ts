@@ -22,7 +22,7 @@ export class LoginPage implements OnInit {
   } 
 
   async login(form: NgForm) {
-      let username =  form.value.email;
+      let username =  form.value.username;
       let password =  form.value.password;
 
       if( !username || username === "" || !password || password === "" ){

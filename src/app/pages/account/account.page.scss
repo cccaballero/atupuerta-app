@@ -27,3 +27,24 @@
 .btnCartTop{
     margin-left: 13px;
 }
+
+.imgPerfil{
+    width: 100px;
+    height: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+}
+
+.btnCamera{
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    color: gray;
+    z-index: 2;
+    background-color: #efefef;
+    border-radius: 100%;
+    padding: 5px;
+    margin-top: -30px;
+    margin-left: 70px;
+}

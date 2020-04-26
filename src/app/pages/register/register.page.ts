@@ -20,6 +20,16 @@ export class RegisterPage implements OnInit {
   }
 
   register(form:NgForm){
+    if( !form.value.password ){
+      this.alertService.presentToast("La contraseña es requerida");
+      return;
+    }
+
+    if( form.value.password != form.value.repassword ){
+      this.alertService.presentToast("La contraseña y la confirmación no coinciden");
+      return;
+    }
+
       /*this.authService.register(form.value.fName, form.value.lName, form.value.email, form.value.password).subscribe(
       data => {
         this.authService.login(form.value.email, form.value.password).subscribe(

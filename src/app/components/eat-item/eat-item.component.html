@@ -2,7 +2,7 @@
   <ion-icon #iconLeft class="iconLeft" name="heart-outline"></ion-icon>
   <ion-icon #iconRight class="iconRight" name="cart-outline"></ion-icon>
 <ion-card class="product" #elem>
-    <ion-card-content (pan)="panEvent($event)" (panStart)="panStart($event)" (panEnd)="panEnd($event)" >
+    <ion-card-content [ngStyle]="styleCardContent" (pan)="panEvent($event)" (panStart)="panStart($event)" (panEnd)="panEnd($event)" >
         <ion-avatar item-start>
             <img src="./assets/img/prueba3.png">
           </ion-avatar>

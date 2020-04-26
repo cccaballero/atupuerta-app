@@ -3,9 +3,11 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>ATuPuerta</ion-title>
+    <ion-title *ngIf="!onSearch">ATuPuerta</ion-title>
+    <ion-input *ngIf="onSearch" placeholder="Buscar" class="onSearch"></ion-input>
     <ion-buttons slot="end">
-      <ion-icon  class="btnCartTop" (click)="onClickCardTop()" name="cart-outline"></ion-icon>
+      <ion-icon class="btnCartTop" (click)="onSearch = !onSearch" name="search-outline"></ion-icon>
+      <ion-icon *ngIf="!onSearch" class="btnCartTop" (click)="onClickCardTop()" name="cart-outline"></ion-icon>
       <!-- <ion-badge item-end>0</ion-badge> -->
     </ion-buttons>
   </ion-toolbar>

@@ -19,6 +19,7 @@ export class EatItemComponent implements OnInit {
 
   @Input() textLeft: string = 'textLeft';
   @Input() textRight: string = 'textRight';
+  @Input() styleCardContent: any = {};
   limit:number = 90;
   firstLimit:number = 60;
   windowWidth = window.innerWidth;

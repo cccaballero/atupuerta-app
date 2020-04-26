@@ -11,5 +11,26 @@
 </ion-header>
 
 <ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher> 
+    <ion-list no-lines class="listProduct">
+        <app-eat-item [styleCardContent]="(item > 2)? styleCardContentDesactive : styleCardContentActive" *ngFor="let item of [1,2,3,1,2,3]" textLeft="" textRight="" (click)="onClickProduct(item)"></app-eat-item>
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+            <ion-infinite-scroll-content
+              loadingSpinner="bubbles"
+              loadingText="Cargando más productos...">
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+    </ion-list>
 
-</ion-content>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" #fab>
+        <ion-fab-button color="primary">
+          <ion-icon name="options"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="top">
+          <ion-fab-button (click)="stats()" ><ion-icon name="stats-chart"></ion-icon></ion-fab-button>
+          <ion-fab-button  (click)="help()" ><ion-icon name="help-circle-outline"></ion-icon></ion-fab-button>
+        </ion-fab-list>		
+      </ion-fab>
+</ion-content> 

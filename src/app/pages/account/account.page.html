@@ -10,6 +10,51 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
+    <ion-avatar class="imgPerfil">
+        <ion-img  src="./assets/img/prueba3.png" ></ion-img>
+        <ion-icon (click)="onCamera()" class="btnCamera" name="camera-outline"></ion-icon>
+    </ion-avatar>
+    <form #form="ngForm" (ngSubmit)="register(form)" method="post">
+      <ion-item>
+          <ion-label position="floating">Usuario</ion-label>
+          <ion-input readonly="true" val="prueba" [(ngModel)]="username" name="username"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input ngModel name="firstname"></ion-input>
+      </ion-item>
+    
+      <ion-item>
+        <ion-label position="floating">Apellidos</ion-label>
+        <ion-input ngModel name="lastname"></ion-input>
+      </ion-item>
+    
+      <ion-item>
+        <ion-label position="floating">Correo</ion-label>
+        <ion-input type="email" ngModel name="email"></ion-input>
+      </ion-item>
 
-</ion-content>
+      <ion-item>
+          <ion-label position="floating">Télefono fijo</ion-label>
+          <ion-input name="phonenumber" ngModel ></ion-input>
+      </ion-item>
+
+      <ion-item>
+          <ion-label position="floating">Celular</ion-label>
+          <ion-input name="movilnumber" ngModel ></ion-input>
+      </ion-item>
+
+      <ion-item>
+          <ion-label position="floating">Provincia</ion-label>
+          <ion-select name="provincia" ngModel >
+          <ion-select-option >Santiago de Cuba</ion-select-option >
+          </ion-select>
+      </ion-item>
+    
+      <ion-button type="submit" expand="full" color="primary">Crear cuenta</ion-button>
+    </form>
+
+    <ion-button (click)="changePassword()" type="submit" expand="full" color="danger">Cambiar Contraseña</ion-button>
+  </ion-content>  
