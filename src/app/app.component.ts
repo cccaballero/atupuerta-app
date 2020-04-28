@@ -16,17 +16,32 @@ export class AppComponent implements OnInit {
     {
       title: 'Inicio',
       url: '/home',
-      icon: 'home-outline'
+      icon: 'home-outline',
+      isLogin:false
     },
     {
       title: 'Favoritos',
       url: '/favorites',
-      icon: 'heart-outline'
+      icon: 'heart-outline',
+      isLogin:false
     },
     {
       title: 'Mensajes',
       url: '/messages',
-      icon: 'chatbubbles-outline'
+      icon: 'chatbubbles-outline',
+      isLogin:false
+    },
+    {
+      title: 'Mis Productos',
+      url: '/products',
+      icon: 'fast-food-outline',
+      isLogin:true
+    },
+    {
+      title: 'Contactanos',
+      url: '/contact',
+      icon: 'mail-outline',
+      isLogin:false
     }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
@@ -71,6 +86,11 @@ export class AppComponent implements OnInit {
  
   register(){ 
     this.navCtrl.navigateForward(['/register']);
+    this.menu.toggle(true);
+  }
+
+  account(){ 
+    this.navCtrl.navigateForward(['/account']);
     this.menu.toggle(true);
   }
 }

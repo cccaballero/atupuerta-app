@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController, ModalController } from '@ionic/angular';
 import { Gesture } from '@ionic/core';
 import { ChatPage } from '../chat/chat.page';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-details',
@@ -28,6 +29,7 @@ export class DetailsPage implements OnInit {
     private route: ActivatedRoute,
     private modalController: ModalController,
     private navCtrl: NavController,
+    private alertService: AlertService,
   ) { }
 
   ngOnInit() {
@@ -96,4 +98,12 @@ export class DetailsPage implements OnInit {
   loadComment(event){
     setTimeout( ()=> event.target.complete(), 1000); 
   } 
+
+  onClickCardTop(){
+    this.navCtrl.navigateForward(['/cart']);
+  }
+
+  addCart(){
+    this.alertService.presentToast("Añadido al Carrito: ToDo");
+  }
 }

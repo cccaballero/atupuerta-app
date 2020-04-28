@@ -1,7 +1,6 @@
 import { Component, OnInit, NgZone, ViewChild,Input } from '@angular/core';
 import { NavController, ModalController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-chat',
@@ -19,8 +18,7 @@ export class ChatPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private modalCtrl: ModalController,
-    private NavCtrl: NavController,
-    // private navParams: NavParams,
+    private navCtrl: NavController,
     private _zone: NgZone,
   ) { 
     
@@ -77,7 +75,7 @@ export class ChatPage implements OnInit {
     if( this.isModal )
       this.modalCtrl.dismiss();
     else
-      this.NavCtrl.back();
+      this.navCtrl.back();
   }
 
   send(){

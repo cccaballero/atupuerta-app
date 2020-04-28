@@ -8,10 +8,6 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
-  { 
-    path: 'folder/:id',  
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  },
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
@@ -30,15 +26,41 @@ const routes: Routes = [
   },
   {
     path: 'chat/:id',
-    loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
+    loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'messages',
-    loadChildren: () => import('./pages/messages/messages.module').then( m => m.MessagesPageModule)
+    loadChildren: () => import('./pages/messages/messages.module').then( m => m.MessagesPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'favorites',
-    loadChildren: () => import('./pages/favorites/favorites.module').then( m => m.FavoritesPageModule)
+    loadChildren: () => import('./pages/favorites/favorites.module').then( m => m.FavoritesPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'account',
+    loadChildren: () => import('./pages/account/account.module').then( m => m.AccountPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'products',
+    loadChildren: () => import('./pages/products/products.module').then( m => m.ProductsPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'products/:id',
+    loadChildren: () => import('./pages/products-add/products-add.module').then( m => m.ProductsAddPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'contact',
+    loadChildren: () => import('./pages/contact/contact.module').then( m => m.ContactPageModule)
+  },
+  {
+    path: 'cart',
+    loadChildren: () => import('./pages/cart/cart.module').then( m => m.CartPageModule)
   },
 ];
 

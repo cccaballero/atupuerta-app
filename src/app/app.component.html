@@ -12,10 +12,10 @@
                     <ion-text color="medium">
                       <h1><strong>Nombre User</strong></h1>
                     </ion-text>
-                    <ion-button *ngIf="authService.isLoggedIn" clear class="btnAuth">
-                        <ion-icon name="person-outline"></ion-icon>
+                    <ion-button *ngIf="authService.isLoggedIn"  (click)="account()" clear class="btnAuth">
+                      <ion-icon name="settings-outline"></ion-icon>
                       <ion-label>
-                        Editar Cuenta
+                        Perfil
                       </ion-label>
                     </ion-button>
                     <ion-button *ngIf="authService.isLoggedIn" (click)="logout()" clear class="btnAuth">
@@ -27,7 +27,7 @@
                     <ion-button *ngIf="!authService.isLoggedIn" (click)="register()" clear class="btnAuth">
                         <ion-icon name="ribbon-outline"></ion-icon>
                         <ion-label>
-                            Registrar
+                            Registrase
                         </ion-label>
                       </ion-button>
                      <ion-button *ngIf="!authService.isLoggedIn" (click)="login()" clear class="btnAuth">

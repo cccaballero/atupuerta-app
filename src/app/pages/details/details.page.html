@@ -5,7 +5,7 @@
       </ion-buttons>
       <ion-title>ATuPuerta</ion-title>
       <ion-buttons slot="end">
-        <ion-icon class="btnCartTop" name="cart-outline"></ion-icon>
+        <ion-icon class="btnCartTop"  (click)="onClickCardTop()"  name="cart-outline"></ion-icon>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
@@ -27,7 +27,7 @@
             <ion-icon (click)="cantidad= (cantidad > 1)? cantidad-1 : cantidad" name="chevron-back-outline"></ion-icon>
             <ion-input type="number" [(ngModel)]="cantidad" ></ion-input> 
             <ion-icon (click)="cantidad=cantidad+1" name="chevron-forward-outline"></ion-icon>
-            <ion-button clear >Añadir al carrito</ion-button>
+            <ion-button (click)="addCart()" clear >Añadir al carrito</ion-button>
         </div>
         
         <h5 class="desctitle">Descripción:</h5>

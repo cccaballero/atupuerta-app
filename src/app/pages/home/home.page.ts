@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonSlides, NavController, Platform } from '@ionic/angular';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-home',
@@ -12,10 +13,12 @@ export class HomePage implements OnInit {
 
   constructor(
     private platform: Platform,
-    private navCtrl:NavController
+    private navCtrl:NavController,
+    private alertService:AlertService,
   ) { }
 
   @ViewChild('slidesCat', { static: true }) slidesCat: IonSlides;
+  onSearch:boolean = false;
 
   slideHomeOpts = {
     initialSlide: 0,
@@ -106,14 +109,14 @@ export class HomePage implements OnInit {
   }  
 
   onClickCardTop(){
-    console.log("toCart");
+    this.navCtrl.navigateForward(['/cart']);
   }
 
   onSwipeLeft(item){
-    console.log(item);
+    this.alertService.presentToast("Favorito: ToDo");
   }
 
   onSwipeRight(item){
-    console.log(item);
+    this.alertService.presentToast("Añadido al Carrito: ToDo");
   }
 }
