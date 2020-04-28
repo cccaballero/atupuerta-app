@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-// import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { AuthApi } from './api/auth.api';
 
 @Injectable({
   providedIn: 'root'
@@ -12,24 +13,58 @@ export class AuthService {
   token:any;
 
   constructor(
-    // private storage: NativeStorage
+    private storage: NativeStorage,
+    private authApi: AuthApi
   ) { }
 
   login(username: string, password: string) {
     let self = this;
     return new Promise( (resolve, reject) => {
-        self.token = "token";
-        self.isLoggedIn = true;
-        return resolve(true);
+      self.authApi.login( username, password ).subscribe(
+        data => {
+            if( data && data.token ){
+                self.token = data;
+                self.isLoggedIn = true;
+                
+                self.storage.setItem('token', data)
+                .then(
+                  () => {
+                    console.log('Token Stored');
+                  },
+                  error => console.error('Error storing item: Token', error)
+                ); 
+                return resolve(true);
+            }
+
+            return resolve(false);
+          },
+          error => {
+            console.log(error); 
+            return reject(false)
+          },() => {
+              return reject(false)
+          });
     });
   }
 
-  register(fName: String, lName: String, email: String, password: String) {
-    return true;
+  register(params) {
+    return new Promise( (resolve, reject) => {
+      this.authApi.register( params ).subscribe(
+        data => {
+          resolve(true);
+        },
+        error => {
+          reject(false);
+        },
+        () => {
+          
+        }
+      );
+    });
   }
 
   logout() {
-        // this.storage.remove("token");
+        this.storage.remove("token");
         this.isLoggedIn = false;
         delete this.token;
         return { message:"logout ok" };
@@ -39,21 +74,20 @@ export class AuthService {
   }
 
   getToken() {
-  //   return this.storage.getItem('token').then(
-  //     data => {
-  //       this.token = data;
-  //       this.userName = this.token.userName;
+    return this.storage.getItem('token').then(
+      data => {
+        this.token = data;
 
-  //       if(this.token != null && this.userName ) {
-  //         this.isLoggedIn=true;
-  //       } else {
-  //         this.isLoggedIn=false;
-  //       }
-  //     },
-  //     error => {
-  //       this.token = null;
-  //       this.isLoggedIn=false;
-  //     }
-  //   );
+        if(this.token != null ) {
+          this.isLoggedIn=true;
+        } else {
+          this.isLoggedIn=false;
+        }
+      },
+      error => {
+        this.token = null;
+        this.isLoggedIn=false;
+      }
+    );
   }
 }

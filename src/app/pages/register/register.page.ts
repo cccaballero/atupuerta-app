@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NavController, LoadingController } from '@ionic/angular';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -13,6 +14,7 @@ export class RegisterPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     private alertService: AlertService,
+    private authService: AuthService,
     public loadingCtrl: LoadingController,
   ) { }
 
@@ -20,6 +22,16 @@ export class RegisterPage implements OnInit {
   }
 
   register(form:NgForm){
+    if( !form.value.username ){
+      this.alertService.presentToast("La nombre de usuario es requerido");
+      return;
+    }
+
+    if( !form.value.email ){
+      this.alertService.presentToast("La correo es requerido");
+      return;
+    }
+
     if( !form.value.password ){
       this.alertService.presentToast("La contraseña es requerida");
       return;
@@ -30,28 +42,18 @@ export class RegisterPage implements OnInit {
       return;
     }
 
-      /*this.authService.register(form.value.fName, form.value.lName, form.value.email, form.value.password).subscribe(
-      data => {
-        this.authService.login(form.value.email, form.value.password).subscribe(
-          data => {
-          },
-          error => {
-            console.log(error);
-          },
-          () => {
-            this.dismissRegister();
-            this.navCtrl.navigateRoot('/dashboard');
-          }
-        );
-        this.alertService.presentToast(data['message']);
-      },
-      error => {
-        console.log(error);
-      },
-      () => {
-        
-      }
-    );*/
+    let params = {
+      username: form.value.username,
+      password: form.value.password,
+      email: form.value.email,
+    };
+
+    this.authService.register( params ).then(  value => {
+      this.navCtrl.navigateRoot('/home');
+      this.alertService.presentToast("Usuario registrado correctamente.");
+    }).catch( e => {
+      this.alertService.presentToast("Error registrando usuario.");
+    });
   }
 
   dismiss(){

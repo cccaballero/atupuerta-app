@@ -11,6 +11,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { ComponentsModule } from './components/components.module';
 import { IonicSwipeAllModule } from 'ionic-swipe-all';
 import { Vibration } from '@ionic-native/vibration/ngx';
+import { HttpClientModule }    from '@angular/common/http';
+import { FileTransfer } from '@ionic-native/file-transfer/ngx';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { HTTP } from '@ionic-native/http/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,13 +24,17 @@ import { Vibration } from '@ionic-native/vibration/ngx';
     IonicModule.forRoot(),
     AppRoutingModule,
     ComponentsModule,
-    IonicSwipeAllModule
+    IonicSwipeAllModule,
+    HttpClientModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    Vibration
+    Vibration,
+    FileTransfer,
+    NativeStorage,
+    HTTP
   ],
   bootstrap: [AppComponent]
 })
