@@ -55,6 +55,10 @@ export class AccountPage implements OnInit {
     }).subscribe(
       data => {
         this.loadingIni.dismiss();
+
+        if( !data.profile_picture )
+          data.profile_picture = this.imgUser;
+
         this.user = data;
         this.setUserStoring( data );
       },
@@ -82,8 +86,8 @@ export class AccountPage implements OnInit {
     let loading = await this.loadingCtrl.create( { message:"Cargando" } )
     await loading.present();
     let params:any = form.value;
-    params.profile_picture = this.imgUser;
-    this.usersApi.update( this.authService.token.userId, form.value, {fields:'id'} ).subscribe(
+    params.profile_picture = this.user.profile_picture;
+    this.usersApi.update( this.authService.token.userId, params, {fields:'id'} ).subscribe(
       data => {
         this.setUserStoring( this.user );
         loading.dismiss();
@@ -111,7 +115,7 @@ export class AccountPage implements OnInit {
       source:CameraSource.Prompt,
       width:100
     }).then( image => {
-      this.imgUser = image.dataUrl;
+      this.user.profile_picture  = image.dataUrl;
     } ).catch( err => this.alertService.presentToast("Camara: Error") );
   }
 
