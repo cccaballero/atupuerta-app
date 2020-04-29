@@ -55,7 +55,7 @@
 
       <div>
         <ion-item style="--padding-end: 0;--padding-start: 0;--min-height: 10px;"></ion-item>
-        <ion-textarea [(ngModel)]="commentText" class="msg-textarea" placeholder="Escribe tu comentario" lineHeight="60" maxExpand="20"></ion-textarea>
+        <textarea #myTextarea (keyup)="resizeTextarea()" [(ngModel)]="commentText" class="msg-textarea" placeholder="Escribe tu comentario" lineHeight="60" maxExpand="20"></textarea>
         <div style="display: flex; margin: 5px;">
             <ion-icon *ngFor="let i of [1,2,3,4,5]" (click)="commentStar=i" name="star" [ngStyle]="styleStar(20, commentStar, i)"></ion-icon>
           </div>

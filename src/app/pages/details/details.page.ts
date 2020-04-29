@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, ModalController } from '@ionic/angular';
 import { Gesture } from '@ionic/core';
@@ -12,6 +12,8 @@ import { FoodsApi } from '../../services/api/foods.api';
   styleUrls: ['./details.page.scss'],
 })
 export class DetailsPage implements OnInit {
+
+  @ViewChild('myTextarea', {static:true}) myTextarea: ElementRef;
 
   ionicGesture: Gesture;
   id:any;
@@ -122,5 +124,9 @@ export class DetailsPage implements OnInit {
 
   addCart(){
     this.alertService.presentToast("Añadido al Carrito: ToDo");
+  }
+
+  resizeTextarea(){
+    this.myTextarea.nativeElement.style.height = this.myTextarea.nativeElement.scrollHeight + 'px';
   }
 }

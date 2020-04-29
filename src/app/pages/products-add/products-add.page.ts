@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -14,7 +14,7 @@ const { Camera  } = Plugins;
 })
 export class ProductsAddPage implements OnInit {
 
-  @ViewChild('textarea', {static:true}) textarea: any;
+  @ViewChild('myTextarea', {static:true}) myTextarea: ElementRef;
   id:any;
   food:any = {};
 
@@ -117,4 +117,7 @@ export class ProductsAddPage implements OnInit {
     } ).catch( err => this.alertService.presentToast("Camara: Error") );
   }
 
+  resizeTextarea(){
+    this.myTextarea.nativeElement.style.height = this.myTextarea.nativeElement.scrollHeight + 'px';
+  }
 }
