@@ -52,7 +52,7 @@ export class AuthService {
 
   register(params) {
     return new Promise( (resolve, reject) => {
-      this.authApi.register( params ).subscribe(
+      this.authApi.register( params, {fields:'id'} ).subscribe(
         data => {
           resolve(true);
         },

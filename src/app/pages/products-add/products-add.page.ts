@@ -67,7 +67,7 @@ export class ProductsAddPage implements OnInit {
   }
 
   create(){
-    this.foodsApi.create( this.food ).subscribe( data => {
+    this.foodsApi.create( this.food, {fields:'id'} ).subscribe( data => {
       this.navCtrl.back();
       this.alertService.presentToast("Producto creado exitosamente");
     },

@@ -15,8 +15,8 @@ export class AuthApi {
         private config: Config,
     ) { }
 
-    register( params:any ){
-        return this.http.post<any>(this.config.url + '/v1/users', params ).pipe(
+    register( params:any, query:any = {} ){
+        return this.http.post<any>(this.config.url + '/v1/users', params, {params:query} ).pipe(
             map(data => data),
             catchError(this.handleError)
         );

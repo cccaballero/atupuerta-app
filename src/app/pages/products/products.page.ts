@@ -53,7 +53,7 @@ export class ProductsPage implements OnInit {
   }
 
   update( target=null, load=false ){
-    this.foodsApi.foods( this.params ).subscribe( 
+    this.foodsApi.my( this.params ).subscribe( 
       data => {
         if( this.foods == null ) 
           this.foods = data;

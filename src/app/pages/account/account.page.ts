@@ -6,6 +6,7 @@ const { Camera  } = Plugins;
 import { UsersApi } from '../../services/api/users.api';
 import { AuthService } from '../../services/auth.service';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-account',
@@ -77,10 +78,12 @@ export class AccountPage implements OnInit {
     ); 
   }
 
-  async update(form){
+  async update(form:any){
     let loading = await this.loadingCtrl.create( { message:"Cargando" } )
     await loading.present();
-    this.usersApi.update( this.authService.token.userId, form.value ).subscribe(
+    let params:any = form.value;
+    params.profile_picture = this.imgUser;
+    this.usersApi.update( this.authService.token.userId, form.value, {fields:'id'} ).subscribe(
       data => {
         this.setUserStoring( this.user );
         loading.dismiss();

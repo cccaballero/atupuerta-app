@@ -27,11 +27,11 @@ export class UsersApi {
         );
     }
 
-    update( id:string, params:any ) {
+    update( id:string, params:any, query:any = {} ) {
         let headers = new HttpHeaders();
         headers = headers.append("Authorization", "Bearer "+ this.authService.token.token);
 
-        return this.http.put<any>(this.config.url + '/v1/users/'+id , params, { headers } ).pipe(
+        return this.http.put<any>(this.config.url + '/v1/users/'+id , params, { headers, params:query } ).pipe(
             map(data => data),
             catchError(this.handleError)
         );

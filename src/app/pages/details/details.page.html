@@ -62,7 +62,7 @@
         <ion-button  [disabled]="commentText?.trim().length<2"
         (click)="sendComment()" class="btn-msg" color="black" clear full>Comentar</ion-button>
           
-        <ion-item style="--padding-end: 16px;">
+        <ion-item style="--padding-end: 16px;" *ngIf="comments && comments.length>0">
             Comentarios
         </ion-item>
 
@@ -72,9 +72,9 @@
                     <ion-avatar item-start>
                         <img src="./assets/img/prueba2.png">
                       </ion-avatar>
-                      <span> {{comment.name}}</span>
+                      <span>{{comment.createdBy.first_name}} {{comment.createdBy.last_name}}</span>
                       <div style="margin-left: auto;">
-                          <ion-icon *ngFor="let i of [1,2,3,4,5]" name="star" [ngStyle]="styleStar(14, comment.star, i)"></ion-icon>
+                          <ion-icon *ngFor="let i of [1,2,3,4,5]" name="star" [ngStyle]="styleStar(14, comment.start, i)"></ion-icon>
                         </div>
                 </ion-card-header>
                 <ion-card-content>
@@ -82,11 +82,11 @@
                   <br/>
                   <div style="display: flex;align-items: center;justify-content: flex-end;">
                       <ion-icon name="time-outline"></ion-icon>
-                    {{comment.date}}
+                    {{transformAgo(comment.updated_at)}}
                   </div>
                 </ion-card-content>
             </ion-card>
-            <ion-infinite-scroll threshold="100px" (ionInfinite)="loadComment($event)">
+            <ion-infinite-scroll threshold="100px" (ionInfinite)="loadComments($event)">
                 <ion-infinite-scroll-content
                   loadingSpinner="bubbles"
                   loadingText="Cargando más comentarios...">
