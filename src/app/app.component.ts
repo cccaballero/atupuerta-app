@@ -23,13 +23,13 @@ export class AppComponent implements OnInit {
       title: 'Favoritos',
       url: '/favorites',
       icon: 'heart-outline',
-      isLogin:false
+      isLogin:true
     },
     {
       title: 'Mensajes',
       url: '/messages',
       icon: 'chatbubbles-outline',
-      isLogin:false
+      isLogin:true
     },
     {
       title: 'Mis Productos',
@@ -67,10 +67,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    const path = window.location.pathname.split('folder/')[1];
-    if (path !== undefined) {
-      this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
-    }
+    // const path = window.location.pathname;
+    // if (path !== undefined) {
+    //   this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
+    // }
   }
 
   logout(){

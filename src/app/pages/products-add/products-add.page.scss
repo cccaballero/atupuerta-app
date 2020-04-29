@@ -27,3 +27,39 @@
 .btnCartTop{
     margin-left: 13px;
 }
+
+ion-content{
+    --padding-end: 15px;
+    --padding-start: 15px;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+}
+
+.Slide ion-slide{
+    min-width: 100vw;
+    max-width: 100vw;
+    height: 180px;
+}
+
+.Slide{
+    border-radius: 10px;
+}
+
+textarea{
+    min-height: 120px;
+}
+
+
+.btnDeleteImg{
+    position: absolute;
+    z-index: 10;
+    width: 20px;
+    height: 20px;
+    background-color: #f1f1f1;
+    color: red;
+    border-radius: 100%;
+    padding: 5px;
+    right: 32px;
+    top: 3px;
+}
+

@@ -5,12 +5,14 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { AuthApi } from './api/auth.api';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   isLoggedIn = false;
   token:any;
+  username:string = "Anonymous";
 
   constructor(
     private storage: NativeStorage,
@@ -25,6 +27,7 @@ export class AuthService {
             if( data && data.token ){
                 self.token = data;
                 self.isLoggedIn = true;
+                self.username = username
                 
                 self.storage.setItem('token', data)
                 .then(
@@ -65,12 +68,11 @@ export class AuthService {
 
   logout() {
         this.storage.remove("token");
+        this.storage.remove("user");
         this.isLoggedIn = false;
         delete this.token;
+        this.username = "Anonymous";
         return { message:"logout ok" };
-  }
-
-  user() {
   }
 
   getToken() {

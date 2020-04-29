@@ -14,8 +14,8 @@
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher> 
-    <ion-list no-lines class="listProduct">
-        <app-eat-item (click)="onClickProduct(item)" (onSwipeLeft)="onSwipeLeft(item)" (onSwipeRight)="onSwipeRight(item)" *ngFor="let item of [1,2,3,1,2,3]" ></app-eat-item>
+    <ion-list no-lines class="listProduct" *ngIf="foods != null">
+        <app-eat-item (click)="onClickProduct(item)" (onSwipeLeft)="onSwipeLeft(item)" (onSwipeRight)="onSwipeRight(item)" [item]="item" *ngFor="let item of foods" ></app-eat-item>
         <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
             <ion-infinite-scroll-content
               loadingSpinner="bubbles"
@@ -23,4 +23,25 @@
             </ion-infinite-scroll-content>
           </ion-infinite-scroll>
     </ion-list>
+
+    <ion-list class="skeletonFoods" *ngIf="foods == null">
+        <ion-card  *ngFor="let num of [0,1,2,4,5]">
+            <ion-card-content>
+            <ion-thumbnail slot="start">
+              <ion-skeleton-text style="line-height: 46px;"></ion-skeleton-text>
+            </ion-thumbnail>
+            <ion-label>
+                <h3>
+                    <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                </h3>
+                <p>
+                    <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+                </p>
+                <p>
+                    <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+                </p>
+            </ion-label>
+            </ion-card-content>
+        </ion-card>
+      </ion-list>
 </ion-content> 

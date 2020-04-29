@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, LoadingController } from '@ionic/angular';
 import { AlertService } from '../../services/alert.service';
-import { Plugins, CameraResultType, CameraSource, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core';
-const { Camera, Filesystem  } = Plugins;
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
-import { HTTP } from '@ionic-native/http/ngx';
+import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
+const { Camera  } = Plugins;
+import { UsersApi } from '../../services/api/users.api';
+import { AuthService } from '../../services/auth.service';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @Component({
   selector: 'app-account',
@@ -13,40 +14,85 @@ import { HTTP } from '@ionic-native/http/ngx';
 })
 export class AccountPage implements OnInit {
 
-  username:string = "prueba";
+  user:any = {};
   imgUser:string = "./assets/img/prueba3.png";
+  loadingIni:any;
 
   constructor(
     private navCtrl:NavController,
+    private loadingCtrl:LoadingController,
     private alertService:AlertService,
-    private transfer: FileTransfer,
-    private http: HTTP,
+    private storage: NativeStorage,
+    private usersApi: UsersApi,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
+    this.iniData();
   }
 
-  register(form){
-    this.http.downloadFile(form.value.firstname, {}, {}, FilesystemDirectory.Data + '/yourfile.jpg').then(data => {
-      // Filesystem.writeFile({
-      //   path: 'yourfile.jpg',
-      //   data: data.data,
-      //   directory: FilesystemDirectory.Data,
-      //   encoding: FilesystemEncoding.UTF8
-      // }).then( value => {
-        Filesystem.readFile({ path: data.toURL() }).then( fileReadResult  => {
-          this.alertService.presentToast(JSON.stringify(fileReadResult.data));
-          this.imgUser = 'data:image/png;base64,'+fileReadResult.data;
-        }).catch( err => {
-          this.alertService.presentToast("Error Read: " + JSON.stringify(err));
-        });
-      // }).catch( e => {
-      //   this.alertService.presentToast("Error: " + JSON.stringify(e));
-      // });
-      this.alertService.presentToast("OK: download " + JSON.stringify(data.toURL()));
-    }, (error) => {
-      this.alertService.presentToast("Error: download " + JSON.stringify(error));
-    });
+  async iniData(){
+    this.loadingIni = await this.loadingCtrl.create( { message:"Cargando" } )
+    await this.loadingIni.present();
+
+    this.storage.getItem('user')
+    .then(
+      data => {
+        this.loadingIni.dismiss();
+        this.user = data;
+      },
+      error => { 
+        this.loadRemote();
+        console.error('Error get storing item: User', error)
+      }
+    );
+  }
+
+  loadRemote(){
+    this.usersApi.user( this.authService.token.userId, { 
+      expand:'username,firstname,lastname,email,phone_number,movil_number' 
+    }).subscribe(
+      data => {
+        this.loadingIni.dismiss();
+        this.user = data;
+        this.setUserStoring( data );
+      },
+      err => {
+        this.loadingIni.dismiss();
+        this.alertService.presentToast("Error cargando datos") 
+      },
+      () => {
+
+      }
+    )
+  }
+
+  setUserStoring(data){
+    this.storage.setItem('user', data)
+    .then(
+      () => {
+        console.log('Token Stored User');
+      },
+      error => console.error('Error storing item: User', error)
+    ); 
+  }
+
+  async update(form){
+    let loading = await this.loadingCtrl.create( { message:"Cargando" } )
+    await loading.present();
+    this.usersApi.update( this.authService.token.userId, form.value ).subscribe(
+      data => {
+        this.setUserStoring( this.user );
+        loading.dismiss();
+        this.alertService.presentToast("Los datos han sido guardados correctamente");
+      },
+      err => {
+        loading.dismiss();
+        this.alertService.presentToast("Error actualizando los datos"); 
+      },
+      () => {
+      }
+    )
   }
 
   onClickCardTop(){

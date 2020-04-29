@@ -8,11 +8,11 @@
           </ion-avatar>
           <div>
             <h4 class="title"  >
-              Pollo asado
+              {{item?.title}}
               <ion-icon class="icoFav" name="{{favorite? 'heart' : 'heart-outline'}}"></ion-icon>
               </h4> 
               <span class="labels" >
-                 Short descriptions
+                {{ trunDesc(item?.description) }}
               </span>
               <br/>
               <div class="price">
@@ -24,7 +24,7 @@
                     <ion-icon name="star" color="medium"></ion-icon>
                     <span class="spanNValoracion">(20)</span>
                   </div>
-                  <span class="spanPrice">$50.00 CUP</span>
+                  <span class="spanPrice">{{item?.price}} {{item?.moneyType}}</span>
               </div>
             </div>
     </ion-card-content>

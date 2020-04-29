@@ -4,6 +4,7 @@ import { NavController, ModalController } from '@ionic/angular';
 import { Gesture } from '@ionic/core';
 import { ChatPage } from '../chat/chat.page';
 import { AlertService } from '../../services/alert.service';
+import { FoodsApi } from '../../services/api/foods.api';
 
 @Component({
   selector: 'app-details',
@@ -14,11 +15,13 @@ export class DetailsPage implements OnInit {
 
   ionicGesture: Gesture;
   id:any;
+  food:any = {};
   slideOpts = {
     initialSlide: 0,
     slidesPerView: 1,
   };
 
+  paramsComment:any = {};
   comments:any;
   commentText:any;
   commentStar:number = 3;
@@ -30,10 +33,12 @@ export class DetailsPage implements OnInit {
     private modalController: ModalController,
     private navCtrl: NavController,
     private alertService: AlertService,
+    private foodsApi: FoodsApi,
   ) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
+    this.loadDetails();
     this.favorite = true;
     this.comments = [{
       name:"Juan Perez Perez",
@@ -43,6 +48,18 @@ export class DetailsPage implements OnInit {
     }]
     this.comments.push( this.comments[0] );
     this.comments.push( this.comments[0] );
+  }
+
+  loadDetails(){
+    this.foodsApi.foodId( this.id, {} ).subscribe( data => {
+      this.food = data;
+    },
+    err=>{
+      this.alertService.presentToast("Error cargando los datos");
+    },
+    () => {
+
+    })
   }
 
   background(){

@@ -19,8 +19,8 @@
       </ion-slides>
       <div class="details">
         <div class="divDetails">
-            <h4 class="title">Pollo Asado</h4>
-            <span class="spanPrice">$50.00 CUP</span>
+            <h4 class="title">{{food?.title}}</h4>
+            <span class="spanPrice">{{food?.price}} {{food?.moneyType}}</span>
         </div>
 
         <div class="cartDiv">
@@ -32,23 +32,7 @@
         
         <h5 class="desctitle">Descripción:</h5>
         <p class="desc" [ngStyle]="{ 'white-space': 'pre-wrap' }">
-            Pollo asado pollo asado pollo asadopollo asadopollo asadopollo 
-            asadopollo asadopollo asadopollo asadopollo asadopollo asadopollo 
-            asadopollo asadopollo asadopollo asadopollo asado.
-            <br/>
-            <br/>
-            Peso: 500g
-            <br/>
-            Ingredientes:
-            <br/>
-            - Pollo
-            <br/>
-            - Aceite
-            <br/>
-            - Sal
-            <br/>
-            <br/>
-            Un plato delicioso.
+            {{food?.description}}
         </p>
         <div class="div2">
           <div class="empr">

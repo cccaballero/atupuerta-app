@@ -45,3 +45,31 @@ ion-title{
     width: 25px;
     height: 25px;
 }
+
+
+.skeletonFoods ion-card{
+    height: 90px;
+}
+
+
+.skeletonFoods ion-card-content{
+    display: flex;
+}
+
+.skeletonFoods ion-thumbnail{ 
+    height: 65px;
+    width: 80px;
+}
+
+.skeletonFoods ion-label{ 
+    width: 100%;
+    margin-left: 7px;
+}
+.skeletonFoods ion-label ion-skeleton-text{ 
+    height: 15px;
+}
+
+.skeletonFoods{
+    padding-top: 0;
+    margin-top: -5px; 
+}

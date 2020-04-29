@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { AlertService } from '../services/alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,8 @@ import { AuthService } from '../services/auth.service';
 export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private alertService: AlertService,
   ) {}
 
   canActivate(
@@ -22,9 +24,9 @@ export class AuthGuard implements CanActivate {
       }
 
       // not logged in so redirect to login page with the return url
-      // this.router.navigate(['/login']);
-      // return false;
-      return true;
+      this.router.navigate(['/login']);
+      this.alertService.presentToast("Necesitas estar logueado para realizar esa acción");
+      return false;
   }
   
 }

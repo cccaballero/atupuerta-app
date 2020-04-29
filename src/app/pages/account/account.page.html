@@ -15,35 +15,35 @@
         <ion-img  [src]="imgUser" ></ion-img>
         <ion-icon (click)="onCamera()" class="btnCamera" name="camera-outline"></ion-icon>
     </ion-avatar>
-    <form #form="ngForm" (ngSubmit)="register(form)" method="post">
+    <form #form="ngForm" (ngSubmit)="update(form)" method="post">
       <ion-item>
           <ion-label position="floating">Usuario</ion-label>
-          <ion-input readonly="true" val="prueba" [(ngModel)]="username" name="username"></ion-input>
+          <ion-input readonly="true" [(ngModel)]="user.username" name="username"></ion-input>
       </ion-item>
       
       <ion-item>
           <ion-label position="floating">Nombre</ion-label>
-          <ion-input ngModel name="firstname"></ion-input>
+          <ion-input [(ngModel)]="user.firstname" name="firstname"></ion-input>
       </ion-item>
     
       <ion-item>
         <ion-label position="floating">Apellidos</ion-label>
-        <ion-input ngModel name="lastname"></ion-input>
+        <ion-input [(ngModel)]="user.lastname" name="lastname"></ion-input>
       </ion-item>
     
       <ion-item>
         <ion-label position="floating">Correo</ion-label>
-        <ion-input type="email" ngModel name="email"></ion-input>
+        <ion-input type="email"  [(ngModel)]="user.email" name="email"></ion-input>
       </ion-item>
 
       <ion-item>
           <ion-label position="floating">Télefono fijo</ion-label>
-          <ion-input name="phonenumber" ngModel ></ion-input>
+          <ion-input name="phone_number"  [(ngModel)]="user['phone_number']" ></ion-input>
       </ion-item>
 
       <ion-item>
           <ion-label position="floating">Celular</ion-label>
-          <ion-input name="movilnumber" ngModel ></ion-input>
+          <ion-input name="movil_number"  [(ngModel)]="user['movil_number']" ></ion-input>
       </ion-item>
 
       <ion-item>
@@ -53,7 +53,7 @@
           </ion-select>
       </ion-item>
     
-      <ion-button type="submit" expand="full" color="primary">Crear cuenta</ion-button>
+      <ion-button type="submit" expand="full" color="primary">Guardar</ion-button>
     </form>
 
     <ion-button (click)="changePassword()" type="submit" expand="full" color="danger">Cambiar Contraseña</ion-button>

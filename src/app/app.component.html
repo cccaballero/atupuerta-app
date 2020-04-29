@@ -10,7 +10,7 @@
                   </ion-avatar>
                   <ion-label>
                     <ion-text color="medium">
-                      <h1><strong>Nombre User</strong></h1>
+                      <h1><strong>{{authService.username}}</strong></h1>
                     </ion-text>
                     <ion-button *ngIf="authService.isLoggedIn"  (click)="account()" clear class="btnAuth">
                       <ion-icon name="settings-outline"></ion-icon>
@@ -42,8 +42,8 @@
           </ion-header>
       <ion-content style="--padding-top: 0px; --padding-bottom: 0px;">
           <ion-list>
-              <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
-                <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
+              <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
+                <ion-item (click)="selectedIndex = i" *ngIf="!p.isLogin || authService.isLoggedIn" [routerDirection]="'root'" [class.selected]="selectedIndex == -i" [routerLink]="[p.url]">
                   <ion-icon slot="start" [name]="p.icon"></ion-icon>
                   <ion-label>
                     {{p.title}}
