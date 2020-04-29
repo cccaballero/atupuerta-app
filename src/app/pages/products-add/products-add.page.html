@@ -13,6 +13,34 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content> 
+    <!-- <ion-icon class="icoFav" name="heart"></ion-icon> -->
+    <ion-slides pager class="Slide" [options]="slideOpts" >
+        <ion-slide [ngStyle]="background()" >
+        </ion-slide>
+      </ion-slides>
+  <form #form="ngForm" (ngSubmit)="action(form)" method="post">
+      <ion-item>
+          <ion-label position="floating">Título</ion-label>
+          <ion-input [(ngModel)]="food.title" name="title"></ion-input>
+      </ion-item>
 
+      <ion-item>
+          <ion-label position="floating">Precio</ion-label>
+          <ion-input [(ngModel)]="food.price" type="number" name="price"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label position="floating">Moneda</ion-label>
+          <ion-select [(ngModel)]="food.moneyType" name="moneyType" ngModel >
+              <ion-select-option >CUP</ion-select-option >
+              <ion-select-option >CUC</ion-select-option >
+          </ion-select>
+      </ion-item>
+      <ion-item>
+          <ion-label position="floating">Descripción</ion-label>
+          <ion-textarea [(ngModel)]="food.description" #textarea placeholder="Escribe la descripción" heigth="120" lineHeight="120" maxExpand="120" ngModel type="number" name="description"></ion-textarea>
+      </ion-item>
+     
+      <ion-button type="submit" expand="full" color="primary">Guardar</ion-button>
+    </form>
 </ion-content>

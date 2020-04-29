@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AlertService } from '../../services/alert.service';
-import { Plugins, CameraResultType, CameraSource, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core';
-const { Camera, Filesystem  } = Plugins;
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
-import { HTTP } from '@ionic-native/http/ngx';
+import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
+const { Camera  } = Plugins;
+import { UsersApi } from '../../services/api/users.api';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-account',
@@ -13,40 +13,47 @@ import { HTTP } from '@ionic-native/http/ngx';
 })
 export class AccountPage implements OnInit {
 
-  username:string = "prueba";
+  user:any = {};
   imgUser:string = "./assets/img/prueba3.png";
 
   constructor(
     private navCtrl:NavController,
     private alertService:AlertService,
-    private transfer: FileTransfer,
-    private http: HTTP,
+    private usersApi: UsersApi,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
+    this.iniData();
   }
 
-  register(form){
-    this.http.downloadFile(form.value.firstname, {}, {}, FilesystemDirectory.Data + '/yourfile.jpg').then(data => {
-      // Filesystem.writeFile({
-      //   path: 'yourfile.jpg',
-      //   data: data.data,
-      //   directory: FilesystemDirectory.Data,
-      //   encoding: FilesystemEncoding.UTF8
-      // }).then( value => {
-        Filesystem.readFile({ path: data.toURL() }).then( fileReadResult  => {
-          this.alertService.presentToast(JSON.stringify(fileReadResult.data));
-          this.imgUser = 'data:image/png;base64,'+fileReadResult.data;
-        }).catch( err => {
-          this.alertService.presentToast("Error Read: " + JSON.stringify(err));
-        });
-      // }).catch( e => {
-      //   this.alertService.presentToast("Error: " + JSON.stringify(e));
-      // });
-      this.alertService.presentToast("OK: download " + JSON.stringify(data.toURL()));
-    }, (error) => {
-      this.alertService.presentToast("Error: download " + JSON.stringify(error));
-    });
+  iniData(){
+    this.usersApi.user( this.authService.token.token, this.authService.token.userId ).subscribe(
+      data => {
+        this.user = data;
+      },
+      err => {
+        this.alertService.presentToast("Error cargando datos") 
+      },
+      () => {
+
+      }
+    )
+  }
+
+  update(form){
+    this.usersApi.update( this.authService.token.userId, form.value ).subscribe(
+      data => {
+        this.user = data;
+        this.alertService.presentToast("Los datos han sido guardados correctamente") 
+      },
+      err => {
+        this.alertService.presentToast("Error actualizando los datos") 
+      },
+      () => {
+
+      }
+    )
   }
 
   onClickCardTop(){

@@ -23,13 +23,13 @@ export class AppComponent implements OnInit {
       title: 'Favoritos',
       url: '/favorites',
       icon: 'heart-outline',
-      isLogin:false
+      isLogin:true
     },
     {
       title: 'Mensajes',
       url: '/messages',
       icon: 'chatbubbles-outline',
-      isLogin:false
+      isLogin:true
     },
     {
       title: 'Mis Productos',

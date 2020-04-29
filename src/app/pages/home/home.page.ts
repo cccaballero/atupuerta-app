@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonSlides, NavController, Platform } from '@ionic/angular';
 import { AlertService } from '../../services/alert.service';
+import { FoodsApi } from '../../services/api/foods.api'
+import { Foods } from 'src/app/models/Foods';
 
 @Component({
   selector: 'app-home',
@@ -14,11 +16,15 @@ export class HomePage implements OnInit {
   constructor(
     private platform: Platform,
     private navCtrl:NavController,
+    private foodsApi:FoodsApi,
     private alertService:AlertService,
   ) { }
 
   @ViewChild('slidesCat', { static: true }) slidesCat: IonSlides;
   onSearch:boolean = false;
+  params: any;
+  foods: Array<Foods> = null;
+  limit = 10;
 
   slideHomeOpts = {
     initialSlide: 0,
@@ -50,6 +56,12 @@ export class HomePage implements OnInit {
   ]
 
   ngOnInit() {
+    this.params = {
+      page: 1,
+      "per-page": this.limit,
+    };
+
+    this.update();
   }
 
   ionViewDidEnter(){
@@ -60,6 +72,25 @@ export class HomePage implements OnInit {
 
   ionViewWillLeave(){
     this.subscription.unsubscribe();
+  }
+
+  update( target=null, load=false ){
+    this.foodsApi.foods( this.params ).subscribe( 
+      data => {
+        if( this.foods == null ) 
+          this.foods = data;
+        else
+          this.foods = this.foods.concat(data);
+
+        this.params.page += 1;
+        // if( load && data.length <= 0 ) target.disabled();
+      },
+      err => {
+        this.alertService.presentToast("Error de conexión");
+      }, 
+      () => {
+        if( target ) target.complete();
+      });
   }
 
   background(){
@@ -97,15 +128,18 @@ export class HomePage implements OnInit {
   }
 
   onClickProduct(item){
-    this.navCtrl.navigateForward(['/details/'+item]);
+    this.navCtrl.navigateForward(['/details/'+item.id]);
   }
 
   doRefresh(event){
-    event.target.complete();
+    this.params.page = 1;
+    this.params["per-page"] = this.limit,
+    this.foods = null;
+    this.update(event.target);
   }  
 
   loadData(event){
-    setTimeout( ()=> event.target.complete(), 1000); 
+    this.update(event.target, true);
   }  
 
   onClickCardTop(){

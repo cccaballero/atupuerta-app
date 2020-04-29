@@ -49,8 +49,16 @@ export class RegisterPage implements OnInit {
     };
 
     this.authService.register( params ).then(  value => {
-      this.navCtrl.navigateRoot('/home');
       this.alertService.presentToast("Usuario registrado correctamente.");
+      this.authService.login( params.username, params.password ).then(
+        val => { 
+          this.navCtrl.navigateRoot('/home');
+        },
+        err=> {
+          this.alertService.presentToast("Error iniciando sección usuario.");
+        }
+      )
+      
     }).catch( e => {
       this.alertService.presentToast("Error registrando usuario.");
     });

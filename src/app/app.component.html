@@ -10,7 +10,7 @@
                   </ion-avatar>
                   <ion-label>
                     <ion-text color="medium">
-                      <h1><strong>Nombre User</strong></h1>
+                      <h1><strong>{{authService.username}}</strong></h1>
                     </ion-text>
                     <ion-button *ngIf="authService.isLoggedIn"  (click)="account()" clear class="btnAuth">
                       <ion-icon name="settings-outline"></ion-icon>
