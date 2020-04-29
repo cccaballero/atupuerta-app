@@ -48,3 +48,18 @@ ion-content{
 textarea{
     min-height: 120px;
 }
+
+
+.btnDeleteImg{
+    position: absolute;
+    z-index: 10;
+    width: 20px;
+    height: 20px;
+    background-color: #f1f1f1;
+    color: red;
+    border-radius: 100%;
+    padding: 5px;
+    right: 32px;
+    top: 3px;
+}
+

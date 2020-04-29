@@ -21,7 +21,7 @@ export class RegisterPage implements OnInit {
   ngOnInit() {
   }
 
-  register(form:NgForm){
+  async register(form:NgForm){
     if( !form.value.username ){
       this.alertService.presentToast("La nombre de usuario es requerido");
       return;
@@ -48,18 +48,23 @@ export class RegisterPage implements OnInit {
       email: form.value.email,
     };
 
+    let loading = await this.loadingCtrl.create( { message:"Cargando" } )
+    await loading.present();
+
     this.authService.register( params ).then(  value => {
       this.alertService.presentToast("Usuario registrado correctamente.");
       this.authService.login( params.username, params.password ).then(
         val => { 
+          loading.dismiss();
           this.navCtrl.navigateRoot('/home');
         },
         err=> {
+          loading.dismiss();
           this.alertService.presentToast("Error iniciando sección usuario.");
         }
       )
-      
     }).catch( e => {
+      loading.dismiss();
       this.alertService.presentToast("Error registrando usuario.");
     });
   }

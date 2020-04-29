@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, LoadingController } from '@ionic/angular';
 import { AlertService } from '../../services/alert.service';
 import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
 const { Camera  } = Plugins;
 import { UsersApi } from '../../services/api/users.api';
 import { AuthService } from '../../services/auth.service';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @Component({
   selector: 'app-account',
@@ -15,10 +16,13 @@ export class AccountPage implements OnInit {
 
   user:any = {};
   imgUser:string = "./assets/img/prueba3.png";
+  loadingIni:any;
 
   constructor(
     private navCtrl:NavController,
+    private loadingCtrl:LoadingController,
     private alertService:AlertService,
+    private storage: NativeStorage,
     private usersApi: UsersApi,
     private authService: AuthService,
   ) { }
@@ -27,12 +31,34 @@ export class AccountPage implements OnInit {
     this.iniData();
   }
 
-  iniData(){
-    this.usersApi.user( this.authService.token.token, this.authService.token.userId ).subscribe(
+  async iniData(){
+    this.loadingIni = await this.loadingCtrl.create( { message:"Cargando" } )
+    await this.loadingIni.present();
+
+    this.storage.getItem('user')
+    .then(
       data => {
+        this.loadingIni.dismiss();
         this.user = data;
       },
+      error => { 
+        this.loadRemote();
+        console.error('Error get storing item: User', error)
+      }
+    );
+  }
+
+  loadRemote(){
+    this.usersApi.user( this.authService.token.userId, { 
+      expand:'username,firstname,lastname,email,phone_number,movil_number' 
+    }).subscribe(
+      data => {
+        this.loadingIni.dismiss();
+        this.user = data;
+        this.setUserStoring( data );
+      },
       err => {
+        this.loadingIni.dismiss();
         this.alertService.presentToast("Error cargando datos") 
       },
       () => {
@@ -41,17 +67,30 @@ export class AccountPage implements OnInit {
     )
   }
 
-  update(form){
+  setUserStoring(data){
+    this.storage.setItem('user', data)
+    .then(
+      () => {
+        console.log('Token Stored User');
+      },
+      error => console.error('Error storing item: User', error)
+    ); 
+  }
+
+  async update(form){
+    let loading = await this.loadingCtrl.create( { message:"Cargando" } )
+    await loading.present();
     this.usersApi.update( this.authService.token.userId, form.value ).subscribe(
       data => {
-        this.user = data;
-        this.alertService.presentToast("Los datos han sido guardados correctamente") 
+        this.setUserStoring( this.user );
+        loading.dismiss();
+        this.alertService.presentToast("Los datos han sido guardados correctamente");
       },
       err => {
-        this.alertService.presentToast("Error actualizando los datos") 
+        loading.dismiss();
+        this.alertService.presentToast("Error actualizando los datos"); 
       },
       () => {
-
       }
     )
   }

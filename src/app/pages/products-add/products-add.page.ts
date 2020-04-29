@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AlertService } from '../../services/alert.service';
 import { FoodsApi } from '../../services/api/foods.api';
+import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
+const { Camera  } = Plugins;
 
 @Component({
   selector: 'app-products-add',
@@ -88,6 +90,31 @@ export class ProductsAddPage implements OnInit {
     () => {
 
     });
+  }
+
+  onDeleteImg(item){
+
+  }
+
+  onGallery(){
+    this.onPhoto(CameraSource.Photos);
+  }
+
+  onCamera(){
+    this.onPhoto(CameraSource.Camera);
+  }
+
+  onPhoto(source){
+    Camera.getPhoto({
+      quality: 90,
+      resultType: CameraResultType.DataUrl,
+      correctOrientation:true,
+      saveToGallery:true,
+      source:source,
+      width:100
+    }).then( image => {
+      // this.imgUser = image.dataUrl; ///data:base64...
+    } ).catch( err => this.alertService.presentToast("Camara: Error") );
   }
 
 }

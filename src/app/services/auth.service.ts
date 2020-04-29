@@ -68,6 +68,7 @@ export class AuthService {
 
   logout() {
         this.storage.remove("token");
+        this.storage.remove("user");
         this.isLoggedIn = false;
         delete this.token;
         this.username = "Anonymous";

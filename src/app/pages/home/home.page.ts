@@ -83,7 +83,7 @@ export class HomePage implements OnInit {
           this.foods = this.foods.concat(data);
 
         this.params.page += 1;
-        // if( load && data.length <= 0 ) target.disabled();
+        if( load && data.length <= 0 ) target.disabled = true;
       },
       err => {
         this.alertService.presentToast("Error de conexión");

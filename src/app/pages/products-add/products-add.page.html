@@ -16,9 +16,10 @@
 <ion-content> 
     <!-- <ion-icon class="icoFav" name="heart"></ion-icon> -->
     <ion-slides pager class="Slide" [options]="slideOpts" >
-        <ion-slide [ngStyle]="background()" >
-        </ion-slide>
-      </ion-slides>
+      <ion-slide [ngStyle]="background()" >
+          <ion-icon (click)="onDeleteImg(1)" class="btnDeleteImg" name="trash-outline"></ion-icon>
+      </ion-slide>
+    </ion-slides>
   <form #form="ngForm" (ngSubmit)="action(form)" method="post">
       <ion-item>
           <ion-label position="floating">Título</ion-label>
@@ -43,4 +44,14 @@
      
       <ion-button type="submit" expand="full" color="primary">Guardar</ion-button>
     </form>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" #fab>
+        <ion-fab-button color="primary">
+          <ion-icon name="camera"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="top">
+          <ion-fab-button (click)="onGallery()" ><ion-icon name="images-outline"></ion-icon></ion-fab-button>
+          <ion-fab-button  (click)="onCamera()" ><ion-icon name="camera-outline"></ion-icon></ion-fab-button>
+        </ion-fab-list>		
+      </ion-fab>
 </ion-content>

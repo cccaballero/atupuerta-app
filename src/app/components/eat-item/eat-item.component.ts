@@ -106,4 +106,10 @@ export class EatItemComponent implements OnInit {
   }
   //End Event
 
+
+  trunDesc( text:string ){
+    let maxTam = 60;
+    if( !text || text.length < maxTam ) return text;
+    return text.substr(0, maxTam-3) + "...";
+  }
 }

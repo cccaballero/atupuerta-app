@@ -17,11 +17,11 @@ export class UsersApi {
         private authService: AuthService,
     ) { }
 
-    user( token:string, id:string ) {
+    user( id:string, params ) {
         let headers = new HttpHeaders();
-        headers = headers.append("Authorization", "Bearer "+ token);
+        headers = headers.append("Authorization", "Bearer "+ this.authService.token.token);
 
-        return this.http.get<any>(this.config.url + '/v1/users/'+id , { headers } ).pipe(
+        return this.http.get<any>(this.config.url + '/v1/users/'+id , { params, headers } ).pipe(
             map(data => data),
             catchError(this.handleError)
         );
