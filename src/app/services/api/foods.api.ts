@@ -4,6 +4,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Config } from './../../../../config';
 import { Foods } from '../../models/Foods';
+import { Comment } from '../../models/Comment';
 import { AuthService } from '../auth.service';
 
 @Injectable({
@@ -25,6 +26,16 @@ export class FoodsApi {
         );
     }
 
+    my( params:any ){
+        let headers = new HttpHeaders();
+        headers = headers.append("Authorization", "Bearer "+ this.authService.token.token);
+
+        return this.http.get<Array<Foods>>(this.config.url + '/v1/myfoods', { params, headers } ).pipe(
+            map(data => data),
+            catchError(this.handleError)
+        );
+    }
+
     foodId( id:string, params:any ){
         return this.http.get<Foods>(this.config.url + '/v1/foods/' + id, { params } ).pipe(
             map(data => data),
@@ -32,11 +43,11 @@ export class FoodsApi {
         );
     }
 
-    create( params:any ){
+    create( params:any, query:any = {} ){
         let headers = new HttpHeaders();
         headers = headers.append("Authorization", "Bearer "+ this.authService.token.token);
 
-        return this.http.post<Foods>(this.config.url + '/v1/foods', params, {headers } ).pipe(
+        return this.http.post<Foods>(this.config.url + '/v1/foods', params, {headers, params:query } ).pipe(
             map(data => data),
             catchError(this.handleError)
         );
@@ -52,11 +63,21 @@ export class FoodsApi {
         );
     }
 
-    commentId( id:string, params:any ){
-        // return this.http.get<Foods>(this.config.url + '/v1/foods/' + id, { params } ).pipe(
-        //     map(data => data),
-        //     catchError(this.handleError)
-        // );
+    comments( id:any, params:any ){
+        return this.http.get<Array<Comment>>(this.config.url + '/v1/foods/'+id +"/comments", { params } ).pipe(
+            map(data => data),
+            catchError(this.handleError)
+        );
+    }
+
+    createComments( id:any, params:any, query:any = {} ){
+        let headers = new HttpHeaders();
+        headers = headers.append("Authorization", "Bearer "+ this.authService.token.token);
+
+        return this.http.post<Comment>(this.config.url + '/v1/comments', params, {headers, params:query } ).pipe(
+            map(data => data),
+            catchError(this.handleError)
+        );
     }
 
     private handleError(res: HttpErrorResponse | any) {

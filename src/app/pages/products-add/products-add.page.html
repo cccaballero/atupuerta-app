@@ -37,10 +37,7 @@
               <ion-select-option >CUC</ion-select-option >
           </ion-select>
       </ion-item>
-      <ion-item>
-          <ion-label position="floating">Descripción</ion-label>
-          <ion-textarea [(ngModel)]="food.description" #textarea placeholder="Escribe la descripción" heigth="120" lineHeight="120" maxExpand="120" ngModel type="number" name="description"></ion-textarea>
-      </ion-item>
+      <textarea #myTextarea (keyup)="resizeTextarea()" class="description" [(ngModel)]="food.description" #textarea placeholder="Escribe la descripción" heigth="120" lineHeight="120" maxExpand="120" ngModel type="number" name="description"></textarea>
      
       <ion-button type="submit" expand="full" color="primary">Guardar</ion-button>
     </form>

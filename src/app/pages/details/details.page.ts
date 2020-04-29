@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, ModalController } from '@ionic/angular';
 import { Gesture } from '@ionic/core';
 import { ChatPage } from '../chat/chat.page';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 import { FoodsApi } from '../../services/api/foods.api';
+import TimeAgo from 'javascript-time-ago';
+import es from 'javascript-time-ago/locale/es';
+import { Foods } from 'src/app/models/Foods';
 
 @Component({
   selector: 'app-details',
@@ -12,6 +16,8 @@ import { FoodsApi } from '../../services/api/foods.api';
   styleUrls: ['./details.page.scss'],
 })
 export class DetailsPage implements OnInit {
+
+  @ViewChild('myTextarea', {static:true}) myTextarea: ElementRef;
 
   ionicGesture: Gesture;
   id:any;
@@ -24,30 +30,36 @@ export class DetailsPage implements OnInit {
   paramsComment:any = {};
   comments:any;
   commentText:any;
+  commentLimit = 5;
   commentStar:number = 3;
   favorite:boolean;
   cantidad:number = 1;
+  timeAgo:any;
 
   constructor(
     private route: ActivatedRoute,
     private modalController: ModalController,
     private navCtrl: NavController,
     private alertService: AlertService,
+    private authService: AuthService,
     private foodsApi: FoodsApi,
   ) { }
 
   ngOnInit() {
+    TimeAgo.addLocale(es)
+    this.timeAgo = new TimeAgo('es-US');
+
     this.id = this.route.snapshot.paramMap.get('id');
     this.loadDetails();
     this.favorite = true;
-    this.comments = [{
-      name:"Juan Perez Perez",
-      text:"El plato es muy bueno. El plato es muy bueno.El plato es muy bueno.El plato es muy bueno.El plato es muy bueno.",
-      date:"21:46 22/04/2020",
-      star:3
-    }]
-    this.comments.push( this.comments[0] );
-    this.comments.push( this.comments[0] );
+
+    this.paramsComment = {
+      "per-page": this.commentLimit,
+      page: 1,
+      sort:"-updated_at"
+    }
+
+    this.iniComments();
   }
 
   loadDetails(){
@@ -61,6 +73,24 @@ export class DetailsPage implements OnInit {
 
     })
   }
+
+  iniComments(target=null){
+    this.foodsApi.comments( this.id, this.paramsComment ).subscribe( data => {
+      if( this.comments == null )
+        this.comments = data;
+      else
+        this.comments = this.comments.concat( data );
+      this.paramsComment.page += 1;
+      if( target && data.length <= 0 ) target.disabled = true;
+    },
+    err=>{
+      this.alertService.presentToast("Error cargando los comentarios");
+    },
+    () => {
+      if( target ) target.complete();
+    })
+  }
+
 
   background(){
     return {
@@ -76,11 +106,30 @@ export class DetailsPage implements OnInit {
   }
 
   sendComment(){
-    this.comments.unshift({
-      name:"User Prueba Prueba",
-      text:this.commentText,
-      date: new Date().toJSON(),
-      star:this.commentStar
+    if( !this.authService.isLoggedIn ){
+      this.alertService.presentToast("Necesitas loguearte para hacer comentarios");
+      return;
+    }
+
+    let params:any = {
+      "text": this.commentText,
+      "start": this.commentStar,
+      "post_id": this.id
+    };
+    this.foodsApi.createComments( this.id, params, {"fields": "id,createdBy"} ).subscribe( data => {
+      params.updated_at =  new Date();
+      params.id =  data.id;
+      params.createdBy =  data.createdBy;
+      if( this.comments == null )
+        this.comments = [params];
+      else
+        this.comments.unshift( params );
+        this.commentText = "";
+    },
+    err=>{
+      this.alertService.presentToast("Error cargando los comentarios");
+    },
+    () => {
     })
   }
 
@@ -112,8 +161,8 @@ export class DetailsPage implements OnInit {
     this.favorite = !this.favorite;
   }
 
-  loadComment(event){
-    setTimeout( ()=> event.target.complete(), 1000); 
+  loadComments(event){
+    this.iniComments(event.target);
   } 
 
   onClickCardTop(){
@@ -122,5 +171,13 @@ export class DetailsPage implements OnInit {
 
   addCart(){
     this.alertService.presentToast("Añadido al Carrito: ToDo");
+  }
+
+  resizeTextarea(){
+    this.myTextarea.nativeElement.style.height = this.myTextarea.nativeElement.scrollHeight + 'px';
+  }
+
+  transformAgo(time){
+    return this.timeAgo.format(new Date(time));
   }
 }

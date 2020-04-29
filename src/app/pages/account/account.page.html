@@ -12,7 +12,7 @@
 
 <ion-content padding>
     <ion-avatar class="imgPerfil">
-        <ion-img  [src]="imgUser" ></ion-img>
+        <ion-img  [src]="user['profile_picture']" ></ion-img>
         <ion-icon (click)="onCamera()" class="btnCamera" name="camera-outline"></ion-icon>
     </ion-avatar>
     <form #form="ngForm" (ngSubmit)="update(form)" method="post">
@@ -23,12 +23,12 @@
       
       <ion-item>
           <ion-label position="floating">Nombre</ion-label>
-          <ion-input [(ngModel)]="user.firstname" name="firstname"></ion-input>
+          <ion-input [(ngModel)]="user['first_name']" name="first_name"></ion-input>
       </ion-item>
     
       <ion-item>
         <ion-label position="floating">Apellidos</ion-label>
-        <ion-input [(ngModel)]="user.lastname" name="lastname"></ion-input>
+        <ion-input [(ngModel)]="user['last_name']" name="last_name"></ion-input>
       </ion-item>
     
       <ion-item>
