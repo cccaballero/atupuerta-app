@@ -47,6 +47,7 @@ export class ProductsPage implements OnInit {
     this.params = {
       page: 1,
       "per-page": this.limit,
+      expand:"active"
     };
 
     this.update();

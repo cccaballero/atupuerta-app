@@ -11,7 +11,11 @@
   </ion-header>
 
 <ion-content> 
-    <ion-icon (click)="onFavorite()" class="icoFav" name="{{favorite? 'heart' : 'heart-outline'}}"></ion-icon>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+      
+    <ion-icon (click)="onFavorite()" class="icoFav" name="{{food.is_favorite? 'heart' : 'heart-outline'}}"></ion-icon>
     <!-- <ion-icon class="icoFav" name="heart"></ion-icon> -->
     <ion-slides pager class="Slide" [options]="slideOpts" >
         <ion-slide [ngStyle]="background()" >
@@ -43,12 +47,8 @@
           </div>
 
           <div style="margin-left: auto;display: flex; align-items: center;">
-              <ion-icon name="star" style="color:#feb92f"></ion-icon>
-              <ion-icon name="star" style="color:#feb92f"></ion-icon>
-              <ion-icon name="star" style="color:#feb92f"></ion-icon>
-              <ion-icon name="star" color="medium"></ion-icon>
-              <ion-icon name="star" color="medium"></ion-icon>
-              <span class="spanNValoracion">(20)</span>
+              <ion-icon *ngFor="let i of [1,2,3,4,5]" name="star" [ngStyle]="styleStar(16, food.star, i)"></ion-icon>
+              <span class="spanNValoracion">({{food?.cant_comments}})</span>
             </div>
         </div>
       </div>

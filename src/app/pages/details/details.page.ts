@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NavController, ModalController } from '@ionic/angular';
+import { NavController, ModalController, LoadingController } from '@ionic/angular';
 import { Gesture } from '@ionic/core';
 import { ChatPage } from '../chat/chat.page';
 import { AlertService } from '../../services/alert.service';
@@ -41,6 +41,7 @@ export class DetailsPage implements OnInit {
     private modalController: ModalController,
     private navCtrl: NavController,
     private alertService: AlertService,
+    private loadingCtrl:LoadingController,
     private authService: AuthService,
     private foodsApi: FoodsApi,
   ) { }
@@ -62,11 +63,15 @@ export class DetailsPage implements OnInit {
     this.iniComments();
   }
 
-  loadDetails(){
+  async loadDetails(){
+    let loading = await this.loadingCtrl.create( { message:"Cargando" } )
+    await loading.present();
     this.foodsApi.foodId( this.id, {} ).subscribe( data => {
       this.food = data;
+      loading.dismiss();
     },
     err=>{
+      loading.dismiss();
       this.alertService.presentToast("Error cargando los datos");
     },
     () => {
@@ -125,6 +130,9 @@ export class DetailsPage implements OnInit {
       else
         this.comments.unshift( params );
         this.commentText = "";
+      this.food.cant_comments = parseInt(this.food.cant_comments);
+      this.food.star = ( this.food.star*this.food.cant_comments + params.start)/(this.food.cant_comments+1);
+      this.food.cant_comments += 1; 
     },
     err=>{
       this.alertService.presentToast("Error cargando los comentarios");
@@ -158,7 +166,13 @@ export class DetailsPage implements OnInit {
   }
 
   onFavorite(){
-    this.favorite = !this.favorite;
+    this.foodsApi.changeFav( this.food.id ).subscribe( data => {
+      this.food.is_favorite = !this.food.is_favorite;
+    },
+     err=> {
+      this.alertService.presentToast(err.message);
+     }, 
+     () => {});    
   }
 
   loadComments(event){
@@ -180,4 +194,9 @@ export class DetailsPage implements OnInit {
   transformAgo(time){
     return this.timeAgo.format(new Date(time));
   }
+
+  doRefresh(event){
+    this.loadDetails()
+    event.target.complete()
+  }  
 }

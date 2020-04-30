@@ -18,10 +18,15 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
       const currentUser = this.authService.isLoggedIn;
-      if (currentUser) {
+      const authorization = this.authService.getAuthorization();
+
+      if ( currentUser && authorization ) {
           // authorised so return true
           return true;
       }
+
+      if( currentUser && !authorization )
+        this.authService.logout();
 
       // not logged in so redirect to login page with the return url
       this.router.navigate(['/login']);

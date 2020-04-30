@@ -13,6 +13,7 @@ export class AuthService {
   isLoggedIn = false;
   token:any;
   username:string = "Anonymous";
+  profilePicture:string = null;
 
   constructor(
     private storage: NativeStorage,
@@ -28,6 +29,8 @@ export class AuthService {
                 self.token = data;
                 self.isLoggedIn = true;
                 self.username = username
+                self.profilePicture = data.profile_picture;
+                data.username = username
                 
                 self.storage.setItem('token', data)
                 .then(
@@ -72,6 +75,7 @@ export class AuthService {
         this.isLoggedIn = false;
         delete this.token;
         this.username = "Anonymous";
+        this.profilePicture = null;
         return { message:"logout ok" };
   }
 
@@ -79,6 +83,8 @@ export class AuthService {
     return this.storage.getItem('token').then(
       data => {
         this.token = data;
+        this.username = data.username;
+        this.profilePicture = data.profile_picture;
 
         if(this.token != null ) {
           this.isLoggedIn=true;
@@ -91,5 +97,14 @@ export class AuthService {
         this.isLoggedIn=false;
       }
     );
+  }
+
+  getAuthorization( ){
+    if( !this.token ) return null;
+
+    if( this.token.expiration && new Date(this.token.expiration).getTime() > Date.now() )
+      return "Bearer "+ this.token.token;
+
+    return null;
   }
 }

@@ -37,6 +37,25 @@ export class UsersApi {
         );
     }
 
+    changePassword(old_password: string, new_password: string) {
+        let params = {
+            old_password,
+            new_password
+        };
+
+        let headers = new HttpHeaders();
+
+        let token = this.authService.getAuthorization();
+
+        headers = headers.append("authorization", token);
+        headers = headers.append("content-type", "application/json");
+
+        return this.http.post<any>(this.config.url + '/v1/password', params, { headers } ).pipe(
+            map(data => data),
+            catchError(this.handleError)
+        );
+    }
+
     private handleError(res: HttpErrorResponse | any) {
         return observableThrowError(res.error || 'Server error');
     }
