@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { throwError as observableThrowError, from } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { throwError as observableThrowError, from, Observable } from 'rxjs';
+import { catchError, map, subscribeOn } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Config } from './../../../../config';
 import { Foods } from '../../models/Foods';
@@ -20,7 +20,13 @@ export class FoodsApi {
     ) { }
 
     foods( params:any ){
-        return this.http.get<Array<Foods>>(this.config.url + '/v1/foods', { params } ).pipe(
+        let headers = new HttpHeaders();
+        let token = this.authService.getAuthorization();
+
+        if( token )
+            headers = headers.append("Authorization", token);
+        
+        return this.http.get<Array<Foods>>(this.config.url + '/v1/foods', { params, headers } ).pipe(
             map(data => data),
             catchError(this.handleError)
         );
@@ -28,7 +34,15 @@ export class FoodsApi {
 
     my( params:any ){
         let headers = new HttpHeaders();
-        headers = headers.append("Authorization", "Bearer "+ this.authService.token.token);
+        let token = this.authService.getAuthorization();
+
+        if( !token ){
+            return Observable.create( subscriber => {
+                subscriber.error( { message:"Necesitas estar logueado para realizar esta acción" } );
+            } );
+        }
+
+        headers = headers.append("Authorization", token);
 
         return this.http.get<Array<Foods>>(this.config.url + '/v1/myfoods', { params, headers } ).pipe(
             map(data => data),
@@ -37,7 +51,13 @@ export class FoodsApi {
     }
 
     foodId( id:string, params:any ){
-        return this.http.get<Foods>(this.config.url + '/v1/foods/' + id, { params } ).pipe(
+        let headers = new HttpHeaders();
+        let token = this.authService.getAuthorization();
+
+        if( token )
+            headers = headers.append("Authorization", token);
+
+        return this.http.get<Foods>(this.config.url + '/v1/foods/' + id, { params, headers } ).pipe(
             map(data => data),
             catchError(this.handleError)
         );
@@ -45,7 +65,15 @@ export class FoodsApi {
 
     create( params:any, query:any = {} ){
         let headers = new HttpHeaders();
-        headers = headers.append("Authorization", "Bearer "+ this.authService.token.token);
+        let token = this.authService.getAuthorization();
+
+        if( !token ){
+            return Observable.create( subscriber => {
+                subscriber.error( { message:"Necesitas estar logueado para realizar esta acción" } );
+            } );
+        }
+
+        headers = headers.append("Authorization", token);
 
         return this.http.post<Foods>(this.config.url + '/v1/foods', params, {headers, params:query } ).pipe(
             map(data => data),
@@ -53,11 +81,19 @@ export class FoodsApi {
         );
     }
 
-    edit( id:any, params:any ){
+    edit( id:any, params:any, query:any = {} ){
         let headers = new HttpHeaders();
-        headers = headers.append("Authorization", "Bearer "+ this.authService.token.token);
+        let token = this.authService.getAuthorization();
 
-        return this.http.put<Foods>(this.config.url + '/v1/foods/'+id, params, {headers } ).pipe(
+        if( !token ){
+            return Observable.create( subscriber => {
+                subscriber.error( { message:"Necesitas estar logueado para realizar esta acción" } );
+            } );
+        }
+
+        headers = headers.append("Authorization", token);
+
+        return this.http.put<Foods>(this.config.url + '/v1/foods/'+id, params, {headers, params:query } ).pipe(
             map(data => data),
             catchError(this.handleError)
         );
@@ -72,9 +108,54 @@ export class FoodsApi {
 
     createComments( id:any, params:any, query:any = {} ){
         let headers = new HttpHeaders();
-        headers = headers.append("Authorization", "Bearer "+ this.authService.token.token);
+        let token = this.authService.getAuthorization();
+
+        if( !token ){
+            return Observable.create( subscriber => {
+                subscriber.error( { message:"Necesitas estar logueado para realizar esta acción" } );
+            } );
+        }
+
+        headers = headers.append("Authorization", token);
 
         return this.http.post<Comment>(this.config.url + '/v1/comments', params, {headers, params:query } ).pipe(
+            map(data => data),
+            catchError(this.handleError)
+        );
+    }
+
+    changeFav( id:any ){
+        let headers = new HttpHeaders();
+
+        let token = this.authService.getAuthorization();
+
+        if( !token ){
+            return Observable.create( subscriber => {
+                subscriber.error( { message:"Necesitas estar logueado para realizar esta acción" } );
+            } );
+        }
+
+        headers = headers.append("Authorization", token);
+
+        return this.http.post<Comment>(this.config.url + '/v1/foods/' + id + '/fav', {}, {headers} ).pipe(
+            map(data => data),
+            catchError(this.handleError)
+        );
+    }
+
+    favorite( params:any ){
+        let headers = new HttpHeaders();
+        let token = this.authService.getAuthorization();
+
+        if( !token ){
+            return Observable.create( subscriber => {
+                subscriber.error( { message:"Necesitas estar logueado para realizar esta acción" } );
+            } );
+        }
+
+        headers = headers.append("Authorization", token);
+        
+        return this.http.get<Array<Foods>>(this.config.url + '/v1/users/fav', { params, headers } ).pipe(
             map(data => data),
             catchError(this.handleError)
         );

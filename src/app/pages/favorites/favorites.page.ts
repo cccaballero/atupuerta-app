@@ -33,7 +33,7 @@ export class FavoritesPage implements OnInit {
   }
 
   update( target=null, load=false ){
-    this.foodsApi.foods( this.params ).subscribe( 
+    this.foodsApi.favorite( this.params ).subscribe( 
       data => {
         if( this.foods == null ) 
           this.foods = data;
@@ -81,7 +81,13 @@ export class FavoritesPage implements OnInit {
   }
 
   onSwipeLeft(item){
-    console.log(item);
+    this.foodsApi.changeFav( item.id ).subscribe( data => {
+      this.foods = this.foods.filter( x => x.id != item.id);
+    },
+     err=> {
+      this.alertService.presentToast(err.message);
+     }, 
+     () => {});    
   }
 
   onSwipeRight(item){

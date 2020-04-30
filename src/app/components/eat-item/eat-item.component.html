@@ -1,5 +1,5 @@
 <div #div class="divCard">
-  <ion-icon #iconLeft class="iconLeft" name="heart-outline"></ion-icon>
+  <ion-icon #iconLeft class="iconLeft" name="{{item?.is_favorite? 'heart-outline' : 'heart'}}"></ion-icon>
   <ion-icon #iconRight class="iconRight" name="cart-outline"></ion-icon>
 <ion-card class="product" #elem>
     <ion-card-content [ngStyle]="styleCardContent" (pan)="panEvent($event)" (panStart)="panStart($event)" (panEnd)="panEnd($event)" >
@@ -9,7 +9,7 @@
           <div>
             <h4 class="title"  >
               {{item?.title}}
-              <ion-icon class="icoFav" name="{{favorite? 'heart' : 'heart-outline'}}"></ion-icon>
+              <ion-icon *ngIf="item.is_favorite" class="icoFav" name="{{item?.is_favorite? 'heart' : 'heart-outline'}}"></ion-icon>
               </h4> 
               <span class="labels" >
                 {{ trunDesc(item?.description) }}
@@ -17,12 +17,13 @@
               <br/>
               <div class="price">
                   <div> 
-                    <ion-icon name="star" style="color:#feb92f"></ion-icon>
+                    <!-- <ion-icon name="star" style="color:#feb92f"></ion-icon>
                     <ion-icon name="star" style="color:#feb92f"></ion-icon>
                     <ion-icon name="star" style="color:#feb92f"></ion-icon>
                     <ion-icon name="star" color="medium"></ion-icon>
-                    <ion-icon name="star" color="medium"></ion-icon>
-                    <span class="spanNValoracion">(20)</span>
+                    <ion-icon name="star" color="medium"></ion-icon> -->
+                    <ion-icon *ngFor="let i of [1,2,3,4,5]" name="star" [ngStyle]="styleStar(12, item.star, i)"></ion-icon>
+                    <span class="spanNValoracion">({{item?.cant_comments}})</span>
                   </div>
                   <span class="spanPrice">{{item?.price}} {{item?.moneyType}}</span>
               </div>

@@ -6,4 +6,8 @@ export class Foods {
     moneyType:string;
     created_by:number;
     message:string;
+    is_favorite:boolean;
+    active:number;
+    cant_comments:number;
+    star:number;
 }

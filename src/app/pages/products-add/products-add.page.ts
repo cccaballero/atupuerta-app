@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, LoadingController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AlertService } from '../../services/alert.service';
@@ -21,6 +21,7 @@ export class ProductsAddPage implements OnInit {
   constructor(
     private route: ActivatedRoute, 
     private navCtrl:NavController,
+    private loadingCtrl:LoadingController,
     private authService:AuthService,
     private alertService:AlertService,
     private foodsApi:FoodsApi,
@@ -34,11 +35,15 @@ export class ProductsAddPage implements OnInit {
       this.loadDetails();
   }
 
-  loadDetails(){
-    this.foodsApi.foodId( this.id, { sort:"created_at" } ).subscribe( data => {
+  async loadDetails(){
+    let loading = await this.loadingCtrl.create( { message:"Cargando" } )
+    await loading.present();
+    this.foodsApi.foodId( this.id, { sort:"-created_at", expand:"active" } ).subscribe( data => {
       this.food = data;
+      loading.dismiss();
     },
     err=>{
+      loading.dismiss();
       this.alertService.presentToast("Error cargando los datos");
     },
     () => {
@@ -66,12 +71,16 @@ export class ProductsAddPage implements OnInit {
       this.edit();
   }
 
-  create(){
+  async create(){
+    let loading = await this.loadingCtrl.create( { message:"Cargando" } )
+    await loading.present();
     this.foodsApi.create( this.food, {fields:'id'} ).subscribe( data => {
       this.navCtrl.back();
+      loading.dismiss();
       this.alertService.presentToast("Producto creado exitosamente");
     },
     err=> {
+      loading.dismiss();
       this.alertService.presentToast("Error creando producto");
     }, 
     () => {
@@ -79,12 +88,16 @@ export class ProductsAddPage implements OnInit {
     });
   }
 
-  edit(){
-    this.foodsApi.edit( this.id, this.food ).subscribe( data => {
+  async edit(){
+    let loading = await this.loadingCtrl.create( { message:"Cargando" } )
+    await loading.present();
+    this.foodsApi.edit( this.id, this.food, {fields:'id'} ).subscribe( data => {
       this.navCtrl.back();
+      loading.dismiss();
       this.alertService.presentToast("Producto editado exitosamente");
     },
     err=> {
+      loading.dismiss();
       this.alertService.presentToast("Error editando producto");
     }, 
     () => {

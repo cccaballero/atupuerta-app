@@ -120,6 +120,6 @@ export class AccountPage implements OnInit {
   }
 
   changePassword(){
-    this.alertService.presentToast("Cambio de contraseña: ToDo");
+    this.navCtrl.navigateForward(['/changepassword']);
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonSlides, NavController, Platform } from '@ionic/angular';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 import { FoodsApi } from '../../services/api/foods.api'
 import { Foods } from 'src/app/models/Foods';
 
@@ -18,12 +19,13 @@ export class HomePage implements OnInit {
     private navCtrl:NavController,
     private foodsApi:FoodsApi,
     private alertService:AlertService,
+    private authService:AuthService,
   ) { }
 
   @ViewChild('slidesCat', { static: true }) slidesCat: IonSlides;
   onSearch:boolean = false;
   params: any;
-  foods: Array<Foods> = null;
+  foods: any = null;
   limit = 10;
 
   slideHomeOpts = {
@@ -56,6 +58,10 @@ export class HomePage implements OnInit {
   ]
 
   ngOnInit() {
+      this.iniPage();
+  }
+
+  iniPage(  ){
     this.params = {
       page: 1,
       "per-page": this.limit,
@@ -63,6 +69,10 @@ export class HomePage implements OnInit {
 
     this.update();
   }
+
+  ionViewWillEnter() {
+  }
+
 
   ionViewDidEnter(){
     this.subscription = this.platform.backButton.subscribe(()=>{
@@ -147,7 +157,16 @@ export class HomePage implements OnInit {
   }
 
   onSwipeLeft(item){
-    this.alertService.presentToast("Favorito: ToDo");
+    this.foodsApi.changeFav( item.id ).subscribe( data => {
+      this.foods = this.foods.map( x => { 
+          x.is_favorite = (x.id != item.id)? x.is_favorite : !x.is_favorite 
+          return x;
+        });
+    },
+     err=> {
+      this.alertService.presentToast(err.message);
+     }, 
+     () => {});    
   }
 
   onSwipeRight(item){

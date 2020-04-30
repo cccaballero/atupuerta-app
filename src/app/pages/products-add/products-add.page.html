@@ -38,7 +38,12 @@
           </ion-select>
       </ion-item>
       <textarea #myTextarea (keyup)="resizeTextarea()" class="description" [(ngModel)]="food.description" #textarea placeholder="Escribe la descripción" heigth="120" lineHeight="120" maxExpand="120" ngModel type="number" name="description"></textarea>
-     
+
+      <ion-item>
+        <ion-toggle [(ngModel)]="food.active" name="active"></ion-toggle>
+        <ion-label >Activo</ion-label>
+      </ion-item>
+
       <ion-button type="submit" expand="full" color="primary">Guardar</ion-button>
     </form>
 

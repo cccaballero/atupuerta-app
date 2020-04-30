@@ -15,7 +15,7 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher> 
     <ion-list no-lines class="listProduct" *ngIf="foods != null">
-        <app-eat-item [styleCardContent]="(item.id < 3)? styleCardContentDesactive : styleCardContentActive" *ngFor="let item of foods" textLeft="" textRight="" [item]="item" (click)="onClickProduct(item)"></app-eat-item>
+        <app-eat-item [styleCardContent]="item.active? styleCardContentActive : styleCardContentDesactive" *ngFor="let item of foods" textLeft="" textRight="" [item]="item" (click)="onClickProduct(item)"></app-eat-item>
         <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
             <ion-infinite-scroll-content
               loadingSpinner="bubbles"

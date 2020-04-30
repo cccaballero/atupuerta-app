@@ -25,8 +25,6 @@ export class EatItemComponent implements OnInit {
   windowWidth = window.innerWidth;
   deltaX:number = 0;
 
-  favorite= true;
-
   constructor(
     private vibration: Vibration,
   ) { }
@@ -111,5 +109,12 @@ export class EatItemComponent implements OnInit {
     let maxTam = 60;
     if( !text || text.length < maxTam ) return text;
     return text.substr(0, maxTam-3) + "...";
+  }
+
+  styleStar(fontSize, value, i){
+    return {
+      "font-size": fontSize+"px",
+      "color": ( value >= i ) ? "#feb92f" : "#92949c"
+    }
   }
 }
