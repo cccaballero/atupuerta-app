@@ -21,6 +21,15 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   } 
 
+  ionViewWillEnter() {
+    this.authService.getToken().then(() => {
+      if( this.authService.isLoggedIn && this.authService.getAuthorization( ) )
+        this.navCtrl.navigateRoot('/home');
+    },
+    err=>{
+    });
+  }
+   
   async login(form: NgForm) {
       let username =  form.value.username;
       let password =  form.value.password;

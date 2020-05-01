@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { AuthApi } from './api/auth.api';
 import { Config } from './../../../config';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 
 @Injectable({
@@ -15,6 +16,9 @@ export class AuthService {
   token:any;
   username:string = "Invitado";
   profilePicture:string = './assets/img/default.jpg';
+
+  public isLoggedInObs: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  public isLoggedInSubject:Subject<any> = new Subject<any>();
 
   constructor(
     private storage: NativeStorage,
@@ -29,6 +33,7 @@ export class AuthService {
         data => {
             if( data && data.token ){
                 self.token = data;
+                this.isLoggedInSubject.next(self.isLoggedIn != true)
                 self.isLoggedIn = true;
                 self.username = username
 
@@ -79,8 +84,9 @@ export class AuthService {
   logout() {
         this.storage.remove("token");
         this.storage.remove("user");
-        this.isLoggedIn = false;
         delete this.token;
+        this.isLoggedInSubject.next(this.isLoggedIn != false)
+        this.isLoggedIn = false;
         this.username = "Invitado";
         this.profilePicture = './assets/img/default.jpg';
         return { message:"logout ok" };

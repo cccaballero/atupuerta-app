@@ -6,8 +6,6 @@ import { ChatPage } from '../chat/chat.page';
 import { AlertService } from '../../services/alert.service';
 import { AuthService } from '../../services/auth.service';
 import { FoodsApi } from '../../services/api/foods.api';
-import TimeAgo from 'javascript-time-ago';
-import es from 'javascript-time-ago/locale/es';
 import { Foods } from 'src/app/models/Foods';
 
 @Component({
@@ -47,9 +45,6 @@ export class DetailsPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    TimeAgo.addLocale(es)
-    this.timeAgo = new TimeAgo('es-US');
-
     this.id = this.route.snapshot.paramMap.get('id');
     this.loadDetails();
     this.favorite = true;
@@ -189,10 +184,6 @@ export class DetailsPage implements OnInit {
 
   resizeTextarea(){
     this.myTextarea.nativeElement.style.height = this.myTextarea.nativeElement.scrollHeight + 'px';
-  }
-
-  transformAgo(time){
-    return this.timeAgo.format(new Date(time));
   }
 
   doRefresh(event){

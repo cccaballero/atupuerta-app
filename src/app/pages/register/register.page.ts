@@ -21,6 +21,15 @@ export class RegisterPage implements OnInit {
   ngOnInit() {
   }
 
+  ionViewWillEnter() {
+    this.authService.getToken().then(() => {
+      if( this.authService.isLoggedIn && this.authService.getAuthorization( ) )
+        this.navCtrl.navigateRoot(['/home']);
+    },
+    err=>{
+    });
+  }
+
   async register(form:NgForm){
     if( !form.value.username ){
       this.alertService.presentToast("La nombre de usuario es requerido");

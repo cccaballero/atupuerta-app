@@ -57,11 +57,26 @@ export class HomePage implements OnInit {
     }
   ]
 
+  auth:any;
+
   ngOnInit() {
+    console.log("ini");
+      this.auth = this.authService.isLoggedInSubject.subscribe( data => { 
+          if( data ){
+            console.log("OK");
+            this.iniPage();
+          }
+      } )
       this.iniPage();
   }
 
+  ngOnDestroy(){
+    console.log("destoy");
+    this.auth.unsubscribe();
+  }
+
   iniPage(  ){
+    this.foods = null;
     this.params = {
       page: 1,
       "per-page": this.limit,

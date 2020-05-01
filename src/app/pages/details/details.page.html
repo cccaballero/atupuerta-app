@@ -82,7 +82,7 @@
                   <br/>
                   <div style="display: flex;align-items: center;justify-content: flex-end;">
                       <ion-icon name="time-outline"></ion-icon>
-                    {{transformAgo(comment.updated_at)}}
+                    {{comment.updated_at|timeAgo}}
                   </div>
                 </ion-card-content>
             </ion-card>

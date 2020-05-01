@@ -8,6 +8,7 @@ import { DetailsPageRoutingModule } from './details-routing.module';
 
 import { DetailsPage } from './details.page';
 import { ChatPageModule } from '../chat/chat.module';
+import { TimeAgoPipe } from '../../pipes/time-ago.pipe';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { ChatPageModule } from '../chat/chat.module';
     DetailsPageRoutingModule,
     ChatPageModule
   ],
-  declarations: [DetailsPage],
+  exports:[TimeAgoPipe],
+  declarations: [DetailsPage, TimeAgoPipe],
   entryComponents: [],
 })
 export class DetailsPageModule {}
