@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class Config {
-  url = "http://localhost:8080";
+  url = "http://10.42.0.232:8080";
   
   constructor() { }
 }
