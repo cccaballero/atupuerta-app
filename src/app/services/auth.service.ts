@@ -31,7 +31,12 @@ export class AuthService {
                 self.token = data;
                 self.isLoggedIn = true;
                 self.username = username
-                self.profilePicture = this.config.url + '/' + data.profile_picture;
+
+                if(data.profile_picture)
+                  self.profilePicture = this.config.url + '/' + data.profile_picture;
+                else
+                  self.profilePicture = './assets/img/default.jpg';
+                
                 data.username = username
                 
                 self.storage.setItem('token', data)
@@ -76,8 +81,8 @@ export class AuthService {
         this.storage.remove("user");
         this.isLoggedIn = false;
         delete this.token;
-        this.username = "Anonymous";
-        this.profilePicture = null;
+        this.username = "Invitado";
+        this.profilePicture = './assets/img/default.jpg';
         return { message:"logout ok" };
   }
 
