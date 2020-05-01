@@ -7,6 +7,7 @@ import { UsersApi } from '../../services/api/users.api';
 import { AuthService } from '../../services/auth.service';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { from } from 'rxjs';
+import { Config } from './../../../../config';
 
 @Component({
   selector: 'app-account',
@@ -26,6 +27,7 @@ export class AccountPage implements OnInit {
     private storage: NativeStorage,
     private usersApi: UsersApi,
     private authService: AuthService,
+    private config: Config,
   ) { }
 
   ngOnInit() {
@@ -60,6 +62,7 @@ export class AccountPage implements OnInit {
           data.profile_picture = this.imgUser;
 
         this.user = data;
+        this.user.profile_picture = this.config.url + '/' + this.user.profile_picture;
         this.setUserStoring( data );
       },
       err => {
