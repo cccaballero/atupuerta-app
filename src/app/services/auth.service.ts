@@ -4,6 +4,7 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { AuthApi } from './api/auth.api';
+import { Config } from './../../../config';
 
 
 @Injectable({
@@ -12,12 +13,13 @@ import { AuthApi } from './api/auth.api';
 export class AuthService {
   isLoggedIn = false;
   token:any;
-  username:string = "Anonymous";
-  profilePicture:string = null;
+  username:string = "Invitado";
+  profilePicture:string = './assets/img/default.jpg';
 
   constructor(
     private storage: NativeStorage,
-    private authApi: AuthApi
+    private authApi: AuthApi,
+    private config: Config
   ) { }
 
   login(username: string, password: string) {
@@ -29,7 +31,12 @@ export class AuthService {
                 self.token = data;
                 self.isLoggedIn = true;
                 self.username = username
-                self.profilePicture = data.profile_picture;
+
+                if(data.profile_picture)
+                  self.profilePicture = this.config.url + '/' + data.profile_picture;
+                else
+                  self.profilePicture = './assets/img/default.jpg';
+                
                 data.username = username
                 
                 self.storage.setItem('token', data)
@@ -74,8 +81,8 @@ export class AuthService {
         this.storage.remove("user");
         this.isLoggedIn = false;
         delete this.token;
-        this.username = "Anonymous";
-        this.profilePicture = null;
+        this.username = "Invitado";
+        this.profilePicture = './assets/img/default.jpg';
         return { message:"logout ok" };
   }
 
