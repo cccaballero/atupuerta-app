@@ -8,6 +8,10 @@ export class Foods {
     message:string;
     is_favorite:boolean;
     active:number;
-    cant_comments:number;
+    cant_comments:any;
     star:number;
+    image1:any;
+    image2:any;
+    image3:any;
+    createdBy:any;
 }

@@ -36,6 +36,16 @@ export class RegisterPage implements OnInit {
       return;
     }
 
+    if( !form.value.first_name ){
+      this.alertService.presentToast("La Nombre es requerido");
+      return;
+    }
+
+    if( !form.value.last_name ){
+      this.alertService.presentToast("Lps apellidos son requeridos");
+      return;
+    }
+
     if( !form.value.email ){
       this.alertService.presentToast("La correo es requerido");
       return;
@@ -55,6 +65,8 @@ export class RegisterPage implements OnInit {
       username: form.value.username,
       password: form.value.password,
       email: form.value.email,
+      first_name: form.value.first_name,
+      last_name: form.value.last_name,
     };
 
     let loading = await this.loadingCtrl.create( { message:"Cargando" } )

@@ -5,6 +5,7 @@ import { Gesture } from '@ionic/core';
 import { ChatPage } from '../chat/chat.page';
 import { AlertService } from '../../services/alert.service';
 import { AuthService } from '../../services/auth.service';
+import { ImageCacheService } from '../../services/image-cache.service';
 import { FoodsApi } from '../../services/api/foods.api';
 import { Foods } from 'src/app/models/Foods';
 
@@ -19,7 +20,7 @@ export class DetailsPage implements OnInit {
 
   ionicGesture: Gesture;
   id:any;
-  food:any = {};
+  food:Foods = new Foods();
   slideOpts = {
     initialSlide: 0,
     slidesPerView: 1,
@@ -34,6 +35,10 @@ export class DetailsPage implements OnInit {
   cantidad:number = 1;
   timeAgo:any;
 
+  image1:any = this.imageCache.imgFood;
+  image2:any = null;
+  image3:any = null;
+
   constructor(
     private route: ActivatedRoute,
     private modalController: ModalController,
@@ -42,6 +47,7 @@ export class DetailsPage implements OnInit {
     private loadingCtrl:LoadingController,
     private authService: AuthService,
     private foodsApi: FoodsApi,
+    private imageCache: ImageCacheService,
   ) { }
 
   ngOnInit() {
@@ -61,12 +67,29 @@ export class DetailsPage implements OnInit {
   async loadDetails(){
     let loading = await this.loadingCtrl.create( { message:"Cargando" } )
     await loading.present();
-    this.foodsApi.foodId( this.id, {} ).subscribe( data => {
+    this.foodsApi.foodId( this.id, { expand:"image2,image3,createdBy" } ).subscribe( data => {
       this.food = data;
-      loading.dismiss();
+
+      this.imageCache.transform( this.food.image1, "food" ).then( newUrl => {
+        this.image1 = newUrl;
+        loading.dismiss();
+      }, err => loading.dismiss());
+
+      if( this.food.image2 ){
+        this.imageCache.transform( this.food.image2, "food" ).then( newUrl => {
+          this.image2 = newUrl;
+        });
+      }
+      
+      if( this.food.image3 ){
+        this.imageCache.transform( this.food.image3, "food" ).then( newUrl => {
+          this.image3 = newUrl;
+        });
+      }
     },
     err=>{
       loading.dismiss();
+      this.dismissDetails();
       this.alertService.presentToast("Error cargando los datos");
     },
     () => {
@@ -92,9 +115,9 @@ export class DetailsPage implements OnInit {
   }
 
 
-  background(){
+  background(img){
     return {
-      "background-image" : "url(./assets/img/prueba3.png)",
+      "background-image" : "url(" + img + ")",
       "background-repeat": "no-repeat",
       "background-position": "center",
       "background-size": "cover",

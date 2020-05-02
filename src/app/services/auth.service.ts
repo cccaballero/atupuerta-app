@@ -6,6 +6,7 @@ import { ToastController } from '@ionic/angular';
 import { AuthApi } from './api/auth.api';
 import { Config } from './../../../config';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { ImageCacheService } from './image-cache.service';
 
 
 @Injectable({
@@ -15,7 +16,7 @@ export class AuthService {
   isLoggedIn = false;
   token:any;
   username:string = "Invitado";
-  profilePicture:string = './assets/img/default.jpg';
+  profilePicture:string = null;
 
   public isLoggedInObs: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public isLoggedInSubject:Subject<any> = new Subject<any>();
@@ -23,8 +24,10 @@ export class AuthService {
   constructor(
     private storage: NativeStorage,
     private authApi: AuthApi,
-    private config: Config
-  ) { }
+    private config: Config,
+    private imageCache: ImageCacheService,
+  ) { 
+   }
 
   login(username: string, password: string) {
     let self = this;
@@ -37,10 +40,7 @@ export class AuthService {
                 self.isLoggedIn = true;
                 self.username = username
 
-                if(data.profile_picture)
-                  self.profilePicture = this.config.url + '/' + data.profile_picture;
-                else
-                  self.profilePicture = './assets/img/default.jpg';
+                self.profilePicture = data.profile_picture;
                 
                 data.username = username
                 
@@ -88,7 +88,9 @@ export class AuthService {
         this.isLoggedInSubject.next(this.isLoggedIn != false)
         this.isLoggedIn = false;
         this.username = "Invitado";
-        this.profilePicture = './assets/img/default.jpg';
+
+        this.profilePicture = null;
+
         return { message:"logout ok" };
   }
 
@@ -97,6 +99,7 @@ export class AuthService {
       data => {
         this.token = data;
         this.username = data.username;
+
         this.profilePicture = data.profile_picture;
 
         if(this.token != null ) {
@@ -110,6 +113,18 @@ export class AuthService {
         this.isLoggedIn=false;
       }
     );
+  }
+
+  editPhotoPerfil( img ){
+    this.profilePicture = img;
+    this.token.profile_picture = img;
+    this.storage.setItem('token', this.token)
+    .then(
+      () => {
+        console.log('Token Stored1');
+      },
+      error => console.error('Error storing item: Token1', error)
+    ); 
   }
 
   getAuthorization( ){

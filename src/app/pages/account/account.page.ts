@@ -6,8 +6,6 @@ const { Camera  } = Plugins;
 import { UsersApi } from '../../services/api/users.api';
 import { AuthService } from '../../services/auth.service';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
-import { from } from 'rxjs';
-import { Config } from './../../../../config';
 
 @Component({
   selector: 'app-account',
@@ -17,7 +15,6 @@ import { Config } from './../../../../config';
 export class AccountPage implements OnInit {
 
   user:any = {};
-  imgUser:string = "./assets/img/prueba3.png";
   loadingIni:any;
 
   constructor(
@@ -27,7 +24,6 @@ export class AccountPage implements OnInit {
     private storage: NativeStorage,
     private usersApi: UsersApi,
     private authService: AuthService,
-    private config: Config,
   ) { }
 
   ngOnInit() {
@@ -57,12 +53,7 @@ export class AccountPage implements OnInit {
     }).subscribe(
       data => {
         this.loadingIni.dismiss();
-
-        if( !data.profile_picture )
-          data.profile_picture = this.imgUser;
-
         this.user = data;
-        this.user.profile_picture = this.config.url + '/' + this.user.profile_picture;
         this.setUserStoring( data );
       },
       err => {
@@ -76,6 +67,7 @@ export class AccountPage implements OnInit {
   }
 
   setUserStoring(data){
+    this.authService.editPhotoPerfil(data.profile_picture);
     this.storage.setItem('user', data)
     .then(
       () => {
@@ -90,8 +82,9 @@ export class AccountPage implements OnInit {
     await loading.present();
     let params:any = form.value;
     params.profile_picture = this.user.profile_picture;
-    this.usersApi.update( this.authService.token.userId, params, {fields:'id'} ).subscribe(
+    this.usersApi.update( this.authService.token.userId, params, {fields:'id,profile_picture'} ).subscribe(
       data => {
+        this.user.profile_picture = data.profile_picture;
         this.setUserStoring( this.user );
         loading.dismiss();
         this.alertService.presentToast("Los datos han sido guardados correctamente");
@@ -111,12 +104,12 @@ export class AccountPage implements OnInit {
 
   onCamera(){
     Camera.getPhoto({
-      quality: 90,
+      quality: 100,
       resultType: CameraResultType.DataUrl,
       correctOrientation:true,
       saveToGallery:true,
       source:CameraSource.Prompt,
-      width:100
+      width:768
     }).then( image => {
       this.user.profile_picture  = image.dataUrl;
     } ).catch( err => this.alertService.presentToast("Camara: Error") );

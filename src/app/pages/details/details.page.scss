@@ -6,8 +6,6 @@ ion-content{
 }
 
 .Slide ion-slide{
-    min-width: 100vw;
-    max-width: 100vw;
     height: 180px;
 }
 
@@ -54,7 +52,7 @@ ion-content{
     align-items: center;
 }
 
-.empr ion-avatar{
+.empr ion-avatar, .empr > ion-img-cache{
     width: 26px;
     height: 26px;
     margin-right: 3px;

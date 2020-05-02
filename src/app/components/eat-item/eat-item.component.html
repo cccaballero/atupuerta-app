@@ -4,7 +4,7 @@
 <ion-card class="product" #elem>
     <ion-card-content [ngStyle]="styleCardContent" (pan)="panEvent($event)" (panStart)="panStart($event)" (panEnd)="panEnd($event)" >
         <ion-avatar item-start>
-            <img src="./assets/img/prueba3.png">
+            <ion-img-cache class="eatItemComponentImg" [src]="item.image1" category="food"> </ion-img-cache>
           </ion-avatar>
           <div>
             <h4 class="title"  >

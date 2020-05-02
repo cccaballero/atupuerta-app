@@ -60,10 +60,8 @@ export class HomePage implements OnInit {
   auth:any;
 
   ngOnInit() {
-    console.log("ini");
       this.auth = this.authService.isLoggedInSubject.subscribe( data => { 
           if( data ){
-            console.log("OK");
             this.iniPage();
           }
       } )
@@ -71,7 +69,6 @@ export class HomePage implements OnInit {
   }
 
   ngOnDestroy(){
-    console.log("destoy");
     this.auth.unsubscribe();
   }
 
@@ -80,6 +77,7 @@ export class HomePage implements OnInit {
     this.params = {
       page: 1,
       "per-page": this.limit,
+      sort:"-id"
     };
 
     this.update();

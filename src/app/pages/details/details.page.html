@@ -18,8 +18,9 @@
     <ion-icon (click)="onFavorite()" class="icoFav" name="{{food.is_favorite? 'heart' : 'heart-outline'}}"></ion-icon>
     <!-- <ion-icon class="icoFav" name="heart"></ion-icon> -->
     <ion-slides pager class="Slide" [options]="slideOpts" >
-        <ion-slide [ngStyle]="background()" >
-        </ion-slide>
+        <ion-slide #slide1 [ngStyle]="background(image1)" ></ion-slide>
+        <ion-slide *ngIf="food.image2" [ngStyle]="background(image2)" ></ion-slide>
+        <ion-slide *ngIf="food.image3" [ngStyle]="background(image3)" ></ion-slide>
       </ion-slides>
       <div class="details">
         <div class="divDetails">
@@ -40,10 +41,8 @@
         </p>
         <div class="div2">
           <div class="empr">
-              <ion-avatar item-start>
-                <img src="./assets/img/prueba3.png">
-              </ion-avatar>
-              <span>Juan Perez Perez</span>
+              <ion-img-cache item-start [src]="food?.createdBy?.profile_picture" category="user" class="imgBorderRadios100"> </ion-img-cache>
+              <span>{{food.createdBy?.first_name}} {{food?.createdBy?.last_name}}</span>
           </div>
 
           <div style="margin-left: auto;display: flex; align-items: center;">
@@ -70,7 +69,7 @@
             <ion-card *ngFor="let comment of comments">
                 <ion-card-header class="empr">
                     <ion-avatar item-start>
-                        <img src="./assets/img/prueba2.png">
+                        <ion-img-cache [src]="comment?.createdBy?.profile_picture" category="user" class="imgBorderRadios100"> </ion-img-cache>
                       </ion-avatar>
                       <span>{{comment.createdBy.first_name}} {{comment.createdBy.last_name}}</span>
                       <div style="margin-left: auto;">

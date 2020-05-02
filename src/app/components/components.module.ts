@@ -3,10 +3,11 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/cor
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { EatItemComponent } from './eat-item/eat-item.component';
+import { IonImgCacheComponent } from './ion-img-cache/ion-img-cache.component';
 
 
 @NgModule({
-  declarations: [EatItemComponent],
+  declarations: [EatItemComponent, IonImgCacheComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,
     NO_ERRORS_SCHEMA
@@ -15,6 +16,6 @@ import { EatItemComponent } from './eat-item/eat-item.component';
       CommonModule ,
       IonicModule
   ],
-  exports: [EatItemComponent]
+  exports: [EatItemComponent, IonImgCacheComponent]
 })
 export class ComponentsModule {}

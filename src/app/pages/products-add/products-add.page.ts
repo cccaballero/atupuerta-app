@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AlertService } from '../../services/alert.service';
 import { FoodsApi } from '../../services/api/foods.api';
+import { Foods } from '../../models/Foods';
+import { ImageCacheService } from '../../services/image-cache.service';
 import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
 const { Camera  } = Plugins;
 
@@ -16,7 +18,11 @@ export class ProductsAddPage implements OnInit {
 
   @ViewChild('myTextarea', {static:true}) myTextarea: ElementRef;
   id:any;
-  food:any = {};
+  food:Foods = new Foods();
+
+  image1:any = this.imageCache.imgFood;
+  image2:any = null;
+  image3:any = null;
 
   constructor(
     private route: ActivatedRoute, 
@@ -25,25 +31,44 @@ export class ProductsAddPage implements OnInit {
     private authService:AuthService,
     private alertService:AlertService,
     private foodsApi:FoodsApi,
+    private imageCache: ImageCacheService,
   ) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
-    if( this.id == "add" )
+    if( this.id == "add" ){
       this.food['created_by'] = this.authService.token.userId;
-    else
+      this.food.active = 1;
+    }else
       this.loadDetails();
   }
 
   async loadDetails(){
     let loading = await this.loadingCtrl.create( { message:"Cargando" } )
     await loading.present();
-    this.foodsApi.foodId( this.id, { sort:"-created_at", expand:"active" } ).subscribe( data => {
+    this.foodsApi.foodId( this.id, { sort:"-created_at", expand:"active,image2,image3" } ).subscribe( data => {
       this.food = data;
-      loading.dismiss();
+
+      this.imageCache.transform( this.food.image1, "food" ).then( newUrl => {
+        this.image1 = newUrl;
+        loading.dismiss();
+      }, err => loading.dismiss());
+
+      if( this.food.image2 ){
+        this.imageCache.transform( this.food.image2, "food" ).then( newUrl => {
+          this.image2 = newUrl;
+        });
+      }
+      
+      if( this.food.image3 ){
+        this.imageCache.transform( this.food.image3, "food" ).then( newUrl => {
+          this.image3 = newUrl;
+        });
+      }
     },
     err=>{
       loading.dismiss();
+      this.dismiss();
       this.alertService.presentToast("Error cargando los datos");
     },
     () => {
@@ -55,9 +80,9 @@ export class ProductsAddPage implements OnInit {
     this.navCtrl.back();
   }
 
-  background(){
+  background(img){
     return {
-      "background-image" : "url(./assets/img/prueba3.png)",
+      "background-image" : "url("+ img +")",
       "background-repeat": "no-repeat",
       "background-position": "center",
       "background-size": "cover",
@@ -74,6 +99,7 @@ export class ProductsAddPage implements OnInit {
   async create(){
     let loading = await this.loadingCtrl.create( { message:"Cargando" } )
     await loading.present();
+    this.updateImage();
     this.foodsApi.create( this.food, {fields:'id'} ).subscribe( data => {
       this.navCtrl.back();
       loading.dismiss();
@@ -91,6 +117,7 @@ export class ProductsAddPage implements OnInit {
   async edit(){
     let loading = await this.loadingCtrl.create( { message:"Cargando" } )
     await loading.present();
+    this.updateImage();
     this.foodsApi.edit( this.id, this.food, {fields:'id'} ).subscribe( data => {
       this.navCtrl.back();
       loading.dismiss();
@@ -106,7 +133,40 @@ export class ProductsAddPage implements OnInit {
   }
 
   onDeleteImg(item){
+    if( item == 1 ){
+      this.image1 = this.image2;
+      this.image2 = this.image3;
+      this.food.image1 = this.food.image2;
+      this.food.image2 = this.food.image3;
+    }else
+      if( item == 2 ){
+        this.image2 = this.image3;
+        this.food.image2 = this.food.image3;
+      }
 
+    this.image3 = null;
+    this.food.image3 = null;
+
+    if( !this.image1 ) this.image1 = this.imageCache.imgFood;
+  }
+
+  updateImage(){
+    if( this.image3 && this.image3.match(/^data:image/) )
+      this.food.image3 = this.image3;
+    if( this.image2 && this.image2.match(/^data:image/) )
+      this.food.image2 = this.image2;
+    if( this.image1 && this.image1.match(/^data:image/) )
+      this.food.image1 = this.image1;
+  }
+
+  selectSaveImg(img){
+    if( !this.image1 || this.image1 == this.imageCache.imgFood )
+      this.image1 = img;
+    else 
+    if( !this.image2 )
+      this.image2 = img;
+    else
+      this.image3 = img;
   }
 
   onGallery(){
@@ -118,16 +178,20 @@ export class ProductsAddPage implements OnInit {
   }
 
   onPhoto(source){
+    if( this.image3 ){
+      this.alertService.presentToast("Una producto puede tener a lo más 3 imagenes");
+      return;
+    }
+
     Camera.getPhoto({
       quality: 90,
       resultType: CameraResultType.DataUrl,
       correctOrientation:true,
       saveToGallery:true,
       source:source,
-      width:100
     }).then( image => {
-      // this.imgUser = image.dataUrl; ///data:base64...
-    } ).catch( err => this.alertService.presentToast("Camara: Error") );
+      this.selectSaveImg(image.dataUrl);
+    } ).catch( err => {} );
   }
 
   resizeTextarea(){

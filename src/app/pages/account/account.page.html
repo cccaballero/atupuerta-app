@@ -12,7 +12,8 @@
 
 <ion-content padding>
     <ion-avatar class="imgPerfil">
-        <ion-img  [src]="user['profile_picture']" ></ion-img>
+        <!-- <ion-img  [src]="user['profile_picture']" ></ion-img> -->
+        <ion-img-cache [src]="user.profile_picture" category="user" class="imgBorderRadios100"> </ion-img-cache>
         <ion-icon (click)="onCamera()" class="btnCamera" name="camera-outline"></ion-icon>
     </ion-avatar>
     <form #form="ngForm" (ngSubmit)="update(form)" method="post">
