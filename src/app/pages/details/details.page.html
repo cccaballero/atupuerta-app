@@ -42,7 +42,7 @@
         <div class="div2">
           <div class="empr">
               <ion-img-cache item-start [src]="food?.createdBy?.profile_picture" category="user" class="imgBorderRadios100"> </ion-img-cache>
-              <span>{{food.createdBy?.first_name}} {{food?.createdBy?.last_name}}</span>
+              <span>{{food.createdBy?.name}}</span>
           </div>
 
           <div style="margin-left: auto;display: flex; align-items: center;">
@@ -71,7 +71,7 @@
                     <ion-avatar item-start>
                         <ion-img-cache [src]="comment?.createdBy?.profile_picture" category="user" class="imgBorderRadios100"> </ion-img-cache>
                       </ion-avatar>
-                      <span>{{comment.createdBy.first_name}} {{comment.createdBy.last_name}}</span>
+                      <span>{{comment.createdBy.name}}</span>
                       <div style="margin-left: auto;">
                           <ion-icon *ngFor="let i of [1,2,3,4,5]" name="star" [ngStyle]="styleStar(14, comment.start, i)"></ion-icon>
                         </div>

@@ -49,7 +49,7 @@ export class AccountPage implements OnInit {
 
   loadRemote(){
     this.usersApi.user( this.authService.token.userId, { 
-      expand:'username,firstname,lastname,email,phone_number,movil_number' 
+      expand:'username,email,phone_number,movil_number' 
     }).subscribe(
       data => {
         this.loadingIni.dismiss();
@@ -78,6 +78,21 @@ export class AccountPage implements OnInit {
   }
 
   async update(form:any){
+    if( !form.value.username ){
+      this.alertService.presentToast("La nombre de usuario es requerido");
+      return;
+    }
+
+    if( !form.value.name ){
+      this.alertService.presentToast("El nombre es requerido");
+      return;
+    }
+
+    if( !form.value.email ){
+      this.alertService.presentToast("El correo es requerido");
+      return;
+    }
+
     let loading = await this.loadingCtrl.create( { message:"Cargando" } )
     await loading.present();
     let params:any = form.value;
